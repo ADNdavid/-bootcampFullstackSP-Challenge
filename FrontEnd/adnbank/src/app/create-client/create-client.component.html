@@ -1,0 +1,21 @@
+<div>
+<h1>Crear cliente:</h1>
+<form action="">
+
+</form>    
+    <input type="text"  [(ngModel)]="client.type_of_identification" name="type_of_identification" placeholder="Tipo de identificación" list="typeIdentification">
+        <datalist id="typeIdentification">
+            <option value="Cédula de ciudadanía"></option>
+            <option value="Cédula de extranjería"></option>
+            <option value="NIT"></option>
+            <option value="Pasaporte"></option>
+        </datalist>    
+
+    <input type="text" [(ngModel)]="client.identification_number" name="identification_number" placeholder="Número de identificaciión">
+    <input type="text" [(ngModel)]="client.name" name="name" placeholder="Nombre">
+    <input type="text" [(ngModel)]="client.lastname" name="lastname" placeholder="Apellido">
+    <input type="email" [(ngModel)]="client.e_mail" name="e_mail" placeholder="Correo electrónico">
+    <input type="date" [(ngModel)]="client.born_date" name="born_date" placeholder="Fecha de nacimiento">
+
+    <input type="submit" (click)="formSubmit()">
+</div>
