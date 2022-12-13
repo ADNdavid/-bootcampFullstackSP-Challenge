@@ -1,0 +1,26 @@
+<div>
+    <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo de documento</th>
+          <th>Numero</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>cuentas</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clients[0]">
+              <td>{{client['client_id']}}</td>
+              <td>{{client['type_of_identification']}}</td>
+              <td>{{client['identification_number']}}</td>
+              <td>{{client['name']}}</td>
+              <td>{{client['lastname']}}</td>
+              <!-- <td>{{client.client_id}}</th> -->
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- <p>{{clients[0].length}}</p> -->
+</div>

@@ -1,0 +1,113 @@
+<div>
+    <h1>Gestionar cliente:</h1>
+    <label for="client_id">ID del cliente:</label>
+    <input
+      type="number"
+      [(ngModel)]="clientId"
+      [ngModelOptions]="{standalone: true}"           
+      id="client_id"          
+      placeholder="ingresa el ID del cliente"      
+      required
+    />
+    <input type="button" (click)="findClientById()" value="Buscar"/>
+    <input type="button" (click)="editInfo()" value="Editar info"/>
+    <input type="button" (click)="formSubmit()"value="guardar info" [disabled]="activateFiels"/>
+    <input type="button" (click)="deleteClient()"value="Eliminar Cliente" [disabled]="activateFiels"/>       
+<div>
+    <!-- <form action=""> --> <!-- rompre ngModel -->
+    <label for="type_of_identification">Tipo de identificación:</label>
+    <input
+      type="text"
+      [value]="client.type_of_identification"
+      [(ngModel)]="client.type_of_identification"
+      id="type_of_identification"
+      placeholder="Cédula de ciudadanía"
+      list="typeIdentification"
+      disabled
+    />
+    <datalist id="typeIdentification">
+      <option value="Cédula de ciudadanía"></option>
+      <option value="Cédula de extranjería"></option>
+      <option value="NIT"></option>
+      <option value="Pasaporte"></option>
+    </datalist>
+    <label for="identification_number">Número de identificación:</label>
+    <input
+      type="text"
+      [value]="client.identification_number"
+      [(ngModel)]="client.identification_number"
+      id="identification_number"
+      placeholder="Número de identificación"
+      disabled
+    />
+    <label for="name">Nombre completo:</label>
+    <input
+      type="text"
+      [value]="client.name"
+      [(ngModel)]="client.name"
+      id="name"
+      placeholder="Pablo"
+      [disabled]="activateFiels"
+      minlength="2"
+    />
+    <label for="lastname">Apellido completo:</label>
+    <input
+      type="text"
+      [value]="client.lastname"
+      [(ngModel)]="client.lastname"
+      id="lastname"
+      placeholder="Pérez"
+      [disabled]="activateFiels"
+      minlength="2"
+    />
+    <label for="e_mail">Correo electrónico</label>
+    <input
+      type="email"
+      [value]="client.e_mail"
+      [(ngModel)]="client.e_mail"
+      id="e_mail"
+      placeholder="ejemplo@dominio.com"
+      [disabled]="activateFiels"
+    />
+    <label for="born_date">Fecha de nacimiento:</label>
+    <input
+      type="date"
+      [value]="client.born_date"
+      [(ngModel)]="client.born_date"
+      id="born_date"
+      placeholder="YYYY-MM-DD"
+      disabled
+    />
+
+    <label for="creation_user">Usuario de creacion:</label>
+    <input
+      type="text"
+      [value]="client.creation_user"
+      id="creation_user"
+      disabled     
+    />
+    <label for="creation_user">Fecha de creacion:</label>
+    <input
+      type="datetime-local"
+      [value]="client.creation_date_of_the_account"
+      id="creation_user"
+      disabled     
+    />
+    <label for="creation_user">Usuario deultima modificacion:</label>
+    <input
+      type="text"
+      [value]="client.last_modification_user"
+      id="creation_user"
+      disabled     
+    />
+    <label for="creation_user">fecha de ultima modificacion:</label>
+    <input
+      type="datetime-local"
+      [value]="client.last_modification_date"
+      id="creation_user"
+      disabled     
+    />
+<!-- </form> -->
+</div>
+    
+  </div>

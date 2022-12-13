@@ -58,6 +58,9 @@ public class ClientController {
             currentClient.setName(client.getName());
             currentClient.setLastname(client.getLastname());
             currentClient.setE_mail(client.getE_mail());
+            currentClient.setLast_modification_date(client.getLast_modification_date());
+            currentClient.setLast_modification_user(client.getLast_modification_user());
+
 
             clientService.updateClient(currentClient);
 

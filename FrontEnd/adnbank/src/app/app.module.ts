@@ -9,13 +9,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CreateClientComponent } from './create-client/create-client.component';
+import { UpdateClientComponent } from './update-client/update-client.component';
+import { ClientListComponent } from './client-list/client-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    CreateClientComponent
+    CreateClientComponent,
+    UpdateClientComponent,
+    ClientListComponent
   ],
   imports: [
     BrowserModule,
