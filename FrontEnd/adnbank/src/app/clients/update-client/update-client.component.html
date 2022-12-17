@@ -12,7 +12,9 @@
     <input type="button" (click)="findClientById()" value="Buscar"/>
     <input type="button" (click)="editInfo()" value="Editar info"/>
     <input type="button" (click)="formSubmit()"value="guardar info" [disabled]="activateFiels"/>
-    <input type="button" (click)="deleteClient()"value="Eliminar Cliente" [disabled]="activateFiels"/>       
+    <input type="button" (click)="deleteClient()"value="Eliminar Cliente" [disabled]="activateFiels"/>
+    <input type="button"  value="Crear cuenta"/>   
+
 <div>
     <!-- <form action=""> --> <!-- rompre ngModel -->
     <label for="type_of_identification">Tipo de identificación:</label>
@@ -111,3 +113,5 @@
 </div>
     
   </div>
+  <app-create-product [clientOwner]="client.identification_number"></app-create-product>
+  <app-product-list [clientOwner]="client.identification_number"></app-product-list>

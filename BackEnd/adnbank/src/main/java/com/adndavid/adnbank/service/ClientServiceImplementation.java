@@ -72,4 +72,5 @@ public class ClientServiceImplementation implements ClientService{
     public Client findClientById(int id) {
         return clientRepository.findById(id).get();
     }
+
 }

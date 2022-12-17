@@ -17,10 +17,11 @@ public class FinancialMovement {
     private float amount;
     private String type_of_movement;
     private float current_balance;
-    private float avaliable_balance;
-    private int origin_product;
-    private int target_product;
+    private float available_balance;
+    private long origin_product;
+    private long target_product;
     private String creation_user;
+    private boolean successful_transaction;
 
     public FinancialMovement(){
     }
@@ -81,27 +82,27 @@ public class FinancialMovement {
         this.current_balance = current_balance;
     }
 
-    public float getAvaliable_balance() {
-        return avaliable_balance;
+    public float getAvailable_balance() {
+        return available_balance;
     }
 
-    public void setAvaliable_balance(float avaliable_balance) {
-        this.avaliable_balance = avaliable_balance;
+    public void setAvailable_balance(float available_balance) {
+        this.available_balance = available_balance;
     }
 
-    public int getOrigin_product() {
+    public long getOrigin_product() {
         return origin_product;
     }
 
-    public void setOrigin_product(int origin_product) {
+    public void setOrigin_product(long origin_product) {
         this.origin_product = origin_product;
     }
 
-    public int getTarget_product() {
+    public long getTarget_product() {
         return target_product;
     }
 
-    public void setTarget_product(int target_product) {
+    public void setTarget_product(long target_product) {
         this.target_product = target_product;
     }
 
@@ -111,5 +112,13 @@ public class FinancialMovement {
 
     public void setCreation_user(String creation_user) {
         this.creation_user = creation_user;
+    }
+
+    public boolean isSuccessful_transaction() {
+        return successful_transaction;
+    }
+
+    public void setSuccessful_transaction(boolean successful_transaction) {
+        this.successful_transaction = successful_transaction;
     }
 }

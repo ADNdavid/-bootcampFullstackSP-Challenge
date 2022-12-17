@@ -1,13 +1,19 @@
 package com.adndavid.adnbank.service;
 
 import com.adndavid.adnbank.entity.FinancialMovement;
+import com.adndavid.adnbank.repository.FinancialMovementRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FinancialMovementServiceImplementation implements FinancialMovementService{
+
+    @Autowired
+    FinancialMovementRepository financialMovementRepository;
+
     @Override
     public FinancialMovement createTransaction(FinancialMovement financialMovement) {
-        return null;
+        return financialMovementRepository.save(financialMovement);
     }
 
     @Override

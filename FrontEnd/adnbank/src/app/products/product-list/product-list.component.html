@@ -1,0 +1,31 @@
+<div>
+    <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo de cuenta</th>
+          <th>Numero</th>
+          <th>Estado</th>
+          <th>Saldo</th>
+          <th>Saldo disponible</th>
+          <th>GMF</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products[0]">
+              <td>{{product['product_id']}}</td>
+              <td>{{product['type_of_account']}}</td>
+              <td>{{product['account_number']}}</td>
+              <td>{{product['state']}}</td>
+              <td>{{product['current_balance']}}</td>
+              <td>{{product['available_balance']}}</td>
+              <td><input type="checkbox" name="exempt_of_gmf" id="GMF" disabled  [checked]="product['exempt_of_gmf']"></td>
+              <td><input type="button" Value="Activar/Inactivar"></td>
+              <td><input type="button" Value="Cancelar"></td>
+              <td><input type="button" Value="Estado de cuenta"></td>         
+              
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" (click)="showProducts()" value="Mostrar productos"/> 
+</div>

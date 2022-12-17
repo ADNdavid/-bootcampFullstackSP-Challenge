@@ -138,5 +138,5 @@ export class UpdateClientComponent implements OnInit {
         alert('No se pudo eliminar el cliente');
       }
     )
-  }
+  }  
 }

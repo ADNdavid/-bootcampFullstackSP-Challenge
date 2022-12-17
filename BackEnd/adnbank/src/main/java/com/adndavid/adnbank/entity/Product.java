@@ -12,7 +12,7 @@ public class Product {
     private int product_id;
 
     private String type_of_account;
-    private int account_number;
+    private long account_number;
     private String state;
     private float current_balance;
     private float available_balance;
@@ -42,11 +42,11 @@ public class Product {
         this.type_of_account = type_of_account;
     }
 
-    public int getAccount_number() {
+    public long getAccount_number() {
         return account_number;
     }
 
-    public void setAccount_number(int account_number) {
+    public void setAccount_number(long account_number) {
         this.account_number = account_number;
     }
 
@@ -74,11 +74,11 @@ public class Product {
         this.available_balance = available_balance;
     }
 
-    public boolean isExempt_from_gmf() {
+    public boolean getExempt_of_gmf() {
         return exempt_of_gmf;
     }
 
-    public void setExempt_from_gmf(boolean exempt_of_gmf) {
+    public void setExempt_of_gmf(boolean exempt_of_gmf) {
         this.exempt_of_gmf = exempt_of_gmf;
     }
 

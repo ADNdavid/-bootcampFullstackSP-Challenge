@@ -1,14 +1,15 @@
 package com.adndavid.adnbank.service;
 
-import com.adndavid.adnbank.entity.Client;
 import com.adndavid.adnbank.entity.Product;
+
+import java.util.List;
 
 public interface ProductService {
 
     //main methods:
     public Product createProduct(Product product);
-    public Client updateProduct(int account_number);
-    public int generateAccountNumber(String type_of_account);
+    public Product updateProduct(Product Product);
+    public long generateAccountNumber(String type_of_account);
     public float calculateCurrentBalance();
     public float calculateAvailableBalance();
     public boolean gmfSwitch();
@@ -19,4 +20,7 @@ public interface ProductService {
     public boolean balanceChecker();
 
     //optional methods:
+    public List<Product> findProducts(String clientOwner);
+
+    public Product findProduct(long accountNumber);
 }
