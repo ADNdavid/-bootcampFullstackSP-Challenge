@@ -1,8 +1,14 @@
-<p>home works!</p>
-<h1>ADNbank</h1>
+<div>
+  <header>
+    <h1>ADNbank</h1>
+  </header>  
+  <app-navbar (windowSwitch)="windowName = $event"></app-navbar>
+<app-create-client *ngIf="windowName=='createClient'" (windowSwitch)="windowName = $event"></app-create-client>
+<app-update-client *ngIf="windowName=='updateClient'" (windowSwitch)="windowName = $event"></app-update-client>
+<app-client-list *ngIf="windowName=='clientList'" (windowSwitch)="windowName = $event"></app-client-list>
+<app-create-movement *ngIf="windowName=='createMovement'" (windowSwitch)="windowName = $event"></app-create-movement>
 
-<!-- <app-create-client></app-create-client><br> -->
-<app-update-client></app-update-client>
-<!-- <app-client-list></app-client-list> -->
-<!-- <app-create-product></app-create-product> -->
-<app-create-movement></app-create-movement>
+<footer> 
+  <p>Reto final Bootcamp Fullstack Portales</p>
+</footer>
+</div>

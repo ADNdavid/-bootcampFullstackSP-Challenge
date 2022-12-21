@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class ClientListComponent {
 clients:Array<any>=[];
 
 ngOnInit(): void {
+  this.clients.shift();
   this.clientService.findAllClients().subscribe(
     (data) => {
       console.log(data);
@@ -23,4 +24,10 @@ ngOnInit(): void {
 }
 
 constructor(private clientService: ClientService) { }
+
+@Output() windowSwitch= new EventEmitter<string>();
+
+    closeWindow():void{
+      this.windowSwitch.emit();
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -12,7 +12,11 @@ export class UpdateClientComponent implements OnInit {
   }
 
   clientId: number = 0;
-  activateFiels: boolean = true;
+  activateFiels_1: boolean = true;
+  activateFiels_2: boolean = true;
+  windowName:string='';
+
+  products: Array<any> = [];
 
   public client: any = {
     client_id: null,
@@ -47,18 +51,21 @@ export class UpdateClientComponent implements OnInit {
           this.client.creation_user = JSON.parse(JSON.stringify(data))['creation_user'];
           this.client.last_modification_date = JSON.parse(JSON.stringify(data))['last_modification_date'];
           this.client.last_modification_user = JSON.parse(JSON.stringify(data))['last_modification_user'];
+          this.activateFiels_1 = false;
         }, (error) => {
           console.log(error);
           alert('No se pudo encontrar el cliente');
+          this.cleanForm();
         }
-      )
+      );      
     }
   }
 
 
   editInfo() {
-    this.activateFiels = !this.activateFiels;
-    console.log("el campo es: " + this.activateFiels);
+    this.activateFiels_2 = !this.activateFiels_2;
+    console.log("el campo es: " + this.activateFiels_2);
+    this.getProducts();
   }
 
 
@@ -108,18 +115,18 @@ export class UpdateClientComponent implements OnInit {
   formSubmit() {
     console.log(this.client);
     if (this.correctlyCompletedForm()) {
-      /*if (this.adultChecker()) { */  
-        this.client.last_modification_user = "newAdmin";
-        this.client.last_modification_date = this.calculateDate();
-        this.clientService.updateClient(this.client,this.clientId).subscribe(
-          (data) => {
-            console.log(data);
-            alert('Cliente modificado con exito.');
-          }, (error) => {
-            console.log(error);
-            alert('No se pudo modificar el cliente');
-          }
-        )
+      /*if (this.adultChecker()) { */
+      this.client.last_modification_user = "newAdmin";
+      this.client.last_modification_date = this.calculateDate();
+      this.clientService.updateClient(this.client, this.clientId).subscribe(
+        (data) => {
+          console.log(data);
+          alert('Cliente modificado con exito.');
+        }, (error) => {
+          console.log(error);
+          alert('No se pudo modificar el cliente');
+        }
+      );
       /*} else {
         alert("no puedes editar la edad, eres menor de edad");
       }*/
@@ -128,15 +135,79 @@ export class UpdateClientComponent implements OnInit {
     }
   }
 
-  deleteClient(){
-    this.clientService.deleteClientById(this.clientId).subscribe(
+  deleteClient() {
+    if (this.productCancelledChecker()) {
+      this.clientService.deleteClientById(this.clientId).subscribe(
+        (data) => {
+          console.log(data);
+          alert('Cliente eliminado con exito.');
+        }, (error) => {
+          console.log(error);
+          alert('No se pudo eliminar el cliente');
+        }
+      );
+      this.cleanForm();      
+    }
+  }
+  
+  getProducts() {
+    this.products.shift();
+    this.clientService.findProducts(this.client.identification_number).subscribe(
       (data) => {
-        console.log(data);
-        alert('Cliente eliminado con exito.');
+        this.products.push(data);
+        console.log(this.products);
       }, (error) => {
         console.log(error);
-        alert('No se pudo eliminar el cliente');
       }
     )
-  }  
+  }
+  productCancelledChecker(): boolean {
+    let condition: boolean = false;
+    if (this.products[0].length === 0) {
+      console.log(this.products[0].length);
+      condition = true;
+      return condition;
+    } else {
+      for (let product of this.products[0]) {
+        if (product['state'] != "Cancelada") {
+          alert('El cliente aún posee productos activos o inactivos.');
+          condition = false;
+          return condition;
+        } else {
+          condition = true;
+          return condition;
+        }
+      }
+    }    
+    return condition;
+  }
+
+  cleanForm(){
+    //Cleaner Forms
+    this.activateFiels_1 = true;
+    this.activateFiels_2 = true;
+    this.client.client_id = null;
+    this.client.type_of_identification = null;
+    this.client.identification_number = null;
+    this.client.name = null;
+    this.client.lastname = null;
+    this.client.e_mail = null;
+    this.client.born_date = null;
+    this.client.creation_date_of_the_account = null;
+    this.client.creation_user = null;
+    this.client.last_modification_date = null;
+    this.client.last_modification_user = null;
+  }
+
+  @Output() windowSwitch= new EventEmitter<string>();
+
+    closeWindow():void{
+      this.windowSwitch.emit();
+      this.cleanForm();
+    }
+
+    openWindow(windowComponentName: string){
+      this.windowName=windowComponentName;
+    }
+    
 }

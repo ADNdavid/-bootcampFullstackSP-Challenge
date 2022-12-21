@@ -1,0 +1,95 @@
+.container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 60%;
+    width: 35vw;
+    height: 40vh;
+    background-color: #e5e5e5;
+    border-color: #219ebc;
+    border-radius: 1rem;
+    border-style: solid;
+    padding: 5rem;
+    padding-top: 3rem;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    overflow: hidden;
+}
+
+img{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 5%;
+    right: 1%;
+}
+
+img:hover{
+    background-color: #dad7cd;
+    border-radius: 50%;
+}
+
+h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.7rem;
+    color: #1d3557;
+    margin-top: 0;
+    font-weight: 600;
+}
+
+table{
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;    
+}
+div {
+    height: 70%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;    
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #e5e5e5;
+}
+
+th{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    border-bottom: 1px solid black;    
+}
+
+td{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.7rem;
+    text-align: center;       
+}
+
+.accountInfo:hover{
+    background-color: #ced4da;
+    cursor: pointer;
+}
+
+.currency::before{
+content: "$";
+}
+
+section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 0.5rem;
+}
+input {
+    font-family: 'Plus Jakarta Sans', sans-serif;    
+}
+p {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #bc4749;    
+}
+
+[type="checkbox"]:checked:disabled {
+    color: #6a994e; 
+}

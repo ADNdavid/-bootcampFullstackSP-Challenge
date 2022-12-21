@@ -1,26 +1,35 @@
-<div>
+<div class="container">
+  <h1>Clientes</h1>
+  <img
+    src="../assets/icons/close-svgrepo-com.svg"
+    alt="Close window icon"
+    width="30"
+    height="30"
+    (click)="closeWindow()"
+  />
+  <div>
     <table>
-        <thead>
+      <thead>
         <tr>
           <th>ID</th>
           <th>Tipo de documento</th>
-          <th>Numero</th>
+          <th>Número de documento</th>
           <th>Nombre</th>
           <th>Apellido</th>
-          <th>cuentas</th>
+          <th>Correo electrónico</th>
         </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let client of clients[0]">
-              <td>{{client['client_id']}}</td>
-              <td>{{client['type_of_identification']}}</td>
-              <td>{{client['identification_number']}}</td>
-              <td>{{client['name']}}</td>
-              <td>{{client['lastname']}}</td>
-              <!-- <td>{{client.client_id}}</th> -->
-            </tr>
-        </tbody>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients[0]" class="row">
+          <td>{{ client["client_id"] }}</td>
+          <td>{{ client["type_of_identification"] }}</td>
+          <td>{{ client["identification_number"] }}</td>
+          <td>{{ client["name"] }}</td>
+          <td>{{ client["lastname"] }}</td>
+          <td>{{ client["e_mail"] }}</td>
+          
+        </tr>
+      </tbody>
     </table>
-
-    <!-- <p>{{clients[0].length}}</p> -->
+  </div>
 </div>

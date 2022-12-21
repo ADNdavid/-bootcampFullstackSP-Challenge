@@ -1,7 +1,8 @@
 package com.adndavid.adnbank.service;
 
-import com.adndavid.adnbank.entity.Client;
 import com.adndavid.adnbank.entity.FinancialMovement;
+
+import java.util.List;
 
 public interface FinancialMovementService {
 
@@ -16,5 +17,5 @@ public interface FinancialMovementService {
     public boolean accountExistenceChecker();
 
     //optional methods:
-    //mostrar estado de cuenta
+    public List<FinancialMovement> findFinancialMovements(long accountNumber);
 }

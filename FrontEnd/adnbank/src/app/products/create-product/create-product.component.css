@@ -1,0 +1,88 @@
+.container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 60%;
+    width: 30vw;
+    height: 40vh;
+    background-color: #e5e5e5;
+    border-color: #219ebc;
+    border-radius: 1rem;
+    border-style: solid;
+    padding: 5rem;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.7rem;
+    color: #1d3557;
+    margin-top: 0;
+    font-weight: 600;
+}
+
+label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+input {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    margin-left: 2rem;
+}
+
+img{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 5%;
+    right: 1%;
+}
+
+img:hover{
+    background-color: #dad7cd;
+    border-radius: 50%;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-content: space-around;
+    height: 25vh;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+ span > div{
+    display: flex;    
+    align-items: center;
+
+ }
+
+ [type="button"] {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 46%;
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    background-color: #52b788;
+    color: white;
+    height: 3.5rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+    opacity: 0.55;
+}
+
+[type="button"]:hover {
+    transform: translate(-50%, -46%);
+    opacity: 1;
+}
+
+[type="radio"], [type="checkbox"] {
+    width: 1.2rem;
+    height: 2rem;
+}

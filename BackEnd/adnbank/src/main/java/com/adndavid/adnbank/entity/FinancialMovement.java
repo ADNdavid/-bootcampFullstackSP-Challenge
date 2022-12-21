@@ -114,7 +114,7 @@ public class FinancialMovement {
         this.creation_user = creation_user;
     }
 
-    public boolean isSuccessful_transaction() {
+    public boolean getSuccessful_transaction() {
         return successful_transaction;
     }
 

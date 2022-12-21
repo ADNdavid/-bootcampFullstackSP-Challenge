@@ -1,0 +1,54 @@
+/* --- Content: --- */
+/* --- 1. imports --*/
+/* --- 2. variables --*/
+/* --- 3. Styles --*/ 
+
+/* --- 1. imports --*/
+@import url(//db.onlinewebfonts.com/c/e601286dac36eb40546492e69bc1622f?family=Porto+400);
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600&display=swap');
+
+/* --- 2. variables --*/
+
+
+/* --- 3. Styles --*/
+
+div{
+    width: 99vw;
+    height: 98vh;
+    background-color: #edede9;
+    overflow: hidden;
+}
+
+header{
+    height: 5rem;
+    background-color: #1d3557;
+    top: 0;
+    padding-top: 1.3rem;
+    border-bottom: 0.25rem solid #d62828;
+}
+
+h1{
+    font-family: "Porto 400";
+    text-transform: uppercase;
+    text-align: center;
+    margin: auto 0;
+    font-size: 3.5rem;
+    color: white;
+    letter-spacing: 0.8rem;     
+}
+
+footer{
+    transform: translateX(-50%);
+    font-family: 'Plus Jakarta Sans', sans-serif;;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.2rem;
+    margin: auto 0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    background-color: rgb(58, 39, 91);
+    color: #edede9;
+    width: 25vw;
+    border-radius: 0.7rem 0.7rem 0 0;
+}

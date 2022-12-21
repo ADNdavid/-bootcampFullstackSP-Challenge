@@ -1,6 +1,5 @@
 package com.adndavid.adnbank.controller;
 
-import com.adndavid.adnbank.entity.Client;
 import com.adndavid.adnbank.entity.Product;
 import com.adndavid.adnbank.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

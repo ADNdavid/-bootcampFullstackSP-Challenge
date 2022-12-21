@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -54,7 +54,9 @@ export class CreateMovementComponent {
       return false;
     } else if ((this.type_of_transaction === 'Retiro') && (this.movement.origin_product === null)) {
       return false;
-    } else if ((this.type_of_transaction === 'Transferencia') && ((this.movement.origin_product === null) || (this.movement.target_product === null))) {
+    } else if ((this.type_of_transaction === 'Transferencia') && 
+                (((this.movement.origin_product === null) || (this.movement.target_product === null)) || 
+                  (this.movement.origin_product === this.movement.target_product))) {
       return false;
     } else {
       return true;
@@ -179,7 +181,7 @@ export class CreateMovementComponent {
       if (this.originProduct.exempt_of_gmf === true && this.originProduct.type_of_account === 'Ahorros') {
         newBalance = this.originProduct.current_balance - this.movement.amount;
 
-        if (newBalance <= 0) {
+        if (newBalance < 0) {
           alert("No es posible realizar el retiro, fondos insuficientes");
           this.movement.successful_transaction = false;
         } else {
@@ -305,9 +307,9 @@ export class CreateMovementComponent {
       }
 
     } else {
-      alert("completa los campos requeridos");
+      alert("Diligencia correctamente los campos");
     }
-    
+
     this.type_of_transaction='';
     this.movement.amount=null;
     this.movement.origin_product=null;
@@ -330,6 +332,9 @@ export class CreateMovementComponent {
   }
 
 
+  @Output() windowSwitch= new EventEmitter<string>();
 
-
+  closeWindow():void{
+    this.windowSwitch.emit();
+  }
 }

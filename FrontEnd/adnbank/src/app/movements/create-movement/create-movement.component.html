@@ -1,19 +1,82 @@
-<div>
-<h1>Realizar movimiento</h1>
-<label for="deposit">Tipo de transacción:</label><br>
-    <label for="deposit">Consignación</label>
-    <input type="radio" name="type_of_transaction" id="deposit" value="Consignación" [(ngModel)]="type_of_transaction" (change)="deactivateForm()">
-    <label for="withdraw">Retiro</label>    
-    <input type="radio" name="type_of_transaction" id="withdraw" value="Retiro" [(ngModel)]="type_of_transaction" (change)="deactivateForm()">
-    <label for="transfer">Transferencia</label>    
-    <input type="radio" name="type_of_transaction" id="transfer" value="Transferencia" [(ngModel)]="type_of_transaction" (change)="deactivateForm()"> <br>
-    <label for="amount">Valor:</label><br>
-    <input type="number" id="amount" name="amount" [(ngModel)]="movement.amount"><br>
-    <label for="originProduct">Producto de origen:</label><br>
-    <input type="number" id="originProduct" name="origin_product" [disabled]="deactivateOriginInput" [(ngModel)]="movement.origin_product" (blur)="getOriginProduct()"><br>
-    <label for="targetProduct">Producto de destino:</label><br>
-    <input type="number" id="targetProduct" name="target_product" [disabled]="deactivateTargetInput" [(ngModel)]="movement.target_product" (blur)="getTargetProduct()"><br>
-    <label for="description">Descripción:</label><br>
-    <input type="text" id="description" name="description" [(ngModel)]="movement.description"><br>
-    <input type="button" value="Confirmar" (click)="formSubmit()">
+<div class="container">
+  <img
+    src="../assets/icons/close-svgrepo-com.svg"
+    alt="Close window icon"
+    width="30"
+    height="30"
+    (click)="closeWindow()"
+  />
+  <h1>Realizar movimiento</h1>
+  <section>
+    <label for="deposit">Tipo de transacción:</label><br />
+    <div>
+    <span
+      ><label for="deposit">Consignación</label>
+      <input
+        type="radio"
+        name="type_of_transaction"
+        id="deposit"
+        value="Consignación"
+        [(ngModel)]="type_of_transaction"
+        (change)="deactivateForm()"
+    /></span>
+    <span
+      ><label for="withdraw">Retiro</label>
+      <input
+        type="radio"
+        name="type_of_transaction"
+        id="withdraw"
+        value="Retiro"
+        [(ngModel)]="type_of_transaction"
+        (change)="deactivateForm()"
+    /></span>
+    <span
+      ><label for="transfer">Transferencia</label>
+      <input
+        type="radio"
+        name="type_of_transaction"
+        id="transfer"
+        value="Transferencia"
+        [(ngModel)]="type_of_transaction"
+        (change)="deactivateForm()"
+    /></span></div>
+  </section>
+  <br />
+  <span
+    ><label for="amount">Valor:</label><br />
+    <input
+      type="number"
+      id="amount"
+      name="amount"
+      [(ngModel)]="movement.amount" /></span
+  ><br />
+  <span
+    ><label for="originProduct">Producto de origen:</label><br />
+    <input
+      type="number"
+      id="originProduct"
+      name="origin_product"
+      [disabled]="deactivateOriginInput"
+      [(ngModel)]="movement.origin_product"
+      (blur)="getOriginProduct()" /></span
+  ><br />
+  <span
+    ><label for="targetProduct">Producto de destino:</label><br />
+    <input
+      type="number"
+      id="targetProduct"
+      name="target_product"
+      [disabled]="deactivateTargetInput"
+      [(ngModel)]="movement.target_product"
+      (blur)="getTargetProduct()" /></span
+  ><br />
+  <span
+    ><label for="description">Descripción:</label><br />
+    <input
+      type="text"
+      id="description"
+      name="description"
+      [(ngModel)]="movement.description" /></span
+  ><br />
+  <input type="button" value="Confirmar" (click)="formSubmit()" />
 </div>

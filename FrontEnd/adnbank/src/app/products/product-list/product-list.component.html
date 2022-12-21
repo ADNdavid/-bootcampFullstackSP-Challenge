@@ -1,6 +1,52 @@
-<div>
+<div class="container">
+  <h1>Productos</h1>
+  <img
+    src="../assets/icons/close-svgrepo-com.svg"
+    alt="Close window icon"
+    width="30"
+    height="30"
+    (click)="closeWindow()"
+  />
+
+  <section>
+    <input type="button" (click)="showProducts()" value="Mostrar productos" />
+    <input
+      type="button"
+      Value="Activar/Inactivar"
+      (click)="changeStatus()"
+      disabled
+      [disabled]="deactivateInputs"
+    />
+    <input
+      type="button"
+      Value="Cancelar"
+      (click)="cancelProduct()"
+      disabled
+      [disabled]="deactivateInputs"
+    />
+    <input
+      type="button"
+      Value="Marcar Excepción de GMF"
+      (click)="untaxMark()"
+      disabled
+      [disabled]="deactivateInputs"
+    />
+    <input
+      type="button"
+      Value="Estado de cuenta"
+      (click)="openWindow('financialStatement')"
+      [disabled]="deactivateInputs"
+    />
+  </section>
+  <span>
+    <p *ngIf="deactivateInputs">Selecciona un producto para modificar:</p>
+    <p *ngIf="!deactivateInputs">
+      Seleccionaste la cuenta: {{ productToUpdate.account_number }}
+    </p>
+  </span>
+  <div>
     <table>
-        <thead>
+      <thead>
         <tr>
           <th>ID</th>
           <th>Tipo de cuenta</th>
@@ -10,22 +56,35 @@
           <th>Saldo disponible</th>
           <th>GMF</th>
         </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of products[0]">
-              <td>{{product['product_id']}}</td>
-              <td>{{product['type_of_account']}}</td>
-              <td>{{product['account_number']}}</td>
-              <td>{{product['state']}}</td>
-              <td>{{product['current_balance']}}</td>
-              <td>{{product['available_balance']}}</td>
-              <td><input type="checkbox" name="exempt_of_gmf" id="GMF" disabled  [checked]="product['exempt_of_gmf']"></td>
-              <td><input type="button" Value="Activar/Inactivar"></td>
-              <td><input type="button" Value="Cancelar"></td>
-              <td><input type="button" Value="Estado de cuenta"></td>         
-              
-            </tr>
-        </tbody>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let product of products[0]"
+          (click)="getProductToChange(product['account_number'])"
+          class="accountInfo"
+        >
+          <td>{{ product["product_id"] }}</td>
+          <td>{{ product["type_of_account"] }}</td>
+          <td>{{ product["account_number"] }}</td>
+          <td>{{ product["state"] }}</td>
+          <td class="currency">{{ product["current_balance"] }}</td>
+          <td class="currency">{{ product["available_balance"] }}</td>
+          <td>
+            <input
+              type="checkbox"
+              name="exempt_of_gmf"
+              id="GMF"
+              [checked]="product['exempt_of_gmf']"
+              disabled
+            />
+          </td>
+        </tr>
+      </tbody>
     </table>
-    <input type="button" (click)="showProducts()" value="Mostrar productos"/> 
+  </div>
 </div>
+<app-financial-statement
+  *ngIf="windowName == 'financialStatement'"
+  [productSelected]="productToUpdate"
+  (windowSwitch)="windowName = $event"
+></app-financial-statement>

@@ -1,1 +1,48 @@
-<p>financial-statement works!</p>
+<div class="container">
+  <img
+    src="../assets/icons/close-svgrepo-com.svg"
+    alt="Close window icon"
+    width="30"
+    height="30"
+    (click)="closeWindow()"
+  />
+  <h1>Estado de cuenta</h1>
+  <section>
+    <span>
+      <p>Número</p>
+      <input type="number" [value]="productSelected.account_number" disabled
+    /></span>
+    <span
+      ><p>Tipo</p>
+      <input type="text" [value]="productSelected.type_of_account" disabled
+    /></span>    
+  </section>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Transacción</th>
+          <th>Descripción</th>
+          <th>Movimiento</th>
+          <th>Valor</th>
+          <th>Saldo</th>
+          <th>Saldo disponible</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movement of movements[0]" class="movement">
+          <td>
+            <input type="datetime-local" [value]="movement['movement_date']" disabled/>
+          </td>
+          <td>{{ movement["type_of_transaction"] }}</td>
+          <td>{{ movement["description"] }}</td>
+          <td>{{ movement["type_of_movement"] }}</td>
+          <td class="currency">{{ movement["amount"] }}</td>
+          <td class="currency">{{ movement["current_balance"] }}</td>
+          <td class="currency">{{ movement["available_balance"] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

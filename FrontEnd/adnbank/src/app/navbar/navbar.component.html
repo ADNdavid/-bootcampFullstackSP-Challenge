@@ -1,7 +1,39 @@
-<div>
-    <p>Crear cliente</p>
-    <p>Gestionar cliente</p>
-    <p>Crear cuenta</p>
-    <p>Gestionar cuenta</p>
-    <p>Crear transaccion</p>
+<div>  
+  <span (click)="openWindow('createClient')">
+    <img
+      src="../assets/icons/person-add-svgrepo-com.svg"
+      alt=""
+      width="40"
+      height="40"
+    />
+    <p>Crear cliente</p></span
+  >
+  <span (click)="openWindow('updateClient')">
+    <img
+      src="../assets/icons/user-edit-svgrepo-com.svg"
+      alt=""
+      width="40"
+      height="40"
+    />
+    <p>Gestionar cliente</p></span
+  >
+
+  <span (click)="openWindow('clientList')">
+    <img
+      src="../assets/icons/people-svgrepo-com.svg"
+      alt=""
+      width="40"
+      height="40"
+    />
+    <p>Mostrar clientes</p></span
+  >  
+  <span (click)="openWindow('createMovement')"
+    ><img
+      src="../assets/icons/money-svgrepo-com.svg"
+      alt=""
+      width="40"
+      height="40"
+    />
+    <p>Crear transaccion</p></span
+  >
 </div>

@@ -48,4 +48,8 @@ export class ClientService {
   public createMovement(financialMovement:any){
     return this.httpClient.post(`${baseUrl}/v0/api/movements`, financialMovement);
   }
+
+  public findMovementsByAccountNumber(accountNumber:number){
+    return this.httpClient.get(`${baseUrl}/v0/api/movements/`+accountNumber);
+  }
 }

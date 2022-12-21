@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ClientService } from 'src/services/client.service';
   templateUrl: './create-client.component.html',
   styleUrls: ['./create-client.component.css']
 })
-export class CreateClientComponent implements OnInit  {
+export class CreateClientComponent implements OnInit  {  
 
   public client:any= {
     type_of_identification: null,
@@ -92,5 +92,22 @@ export class CreateClientComponent implements OnInit  {
       }else{
         alert("ingresa el campo requerido:");       
         }
+    }
+
+    
+    @Output() windowSwitch= new EventEmitter<string>();
+
+    closeWindow():void{
+      this.windowSwitch.emit();
+      this.client.type_of_identification= null;
+      this.client.identification_number= null;
+      this.client.name= null;
+      this.client.lastname= null;
+      this.client.e_mail= null;
+      this.client.born_date= null;
+      this.client.creation_date_of_the_account= null;
+      this.client.creation_user= null;
+      this.client.last_modification_date= null;
+      this.client.last_modification_user= null;
     }
 }

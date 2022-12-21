@@ -1,13 +1,62 @@
-<div>
-    <h1></h1>
-    <label for="Ahorros">Tipo de cuenta:</label><br>
-    <label for="Ahorros">Ahorros</label>
-    <input type="radio" name="type_of_account" id="Ahorros" value="Ahorros" [(ngModel)]="type_of_account" (change)="generateAccountNumber()">
-    <label for="Corriente">Corriente</label>    
-    <input type="radio" name="type_of_account" id="Corriente" value="Corriente" [(ngModel)]="type_of_account" (change)="generateAccountNumber()"> <br>
-    <label for="GMF">Exenta de GMF</label>
-    <input type="checkbox" name="exempt_of_gmf" id="GMF" [disabled]="activateFiels" (click)="gmfSwitch()" [(ngModel)]="exemptGMF" [value]="exemptGMF">
-    <label for="">Número de cuenta:</label>
-    <input type="number" name="account_number" [value]="accountNumber" disabled><br>
-    <input type="button" value="Confirmar" (click)="formSubmit()">
+<div class="container">
+  <h1>Crear Producto</h1>
+  <img
+    src="../assets/icons/close-svgrepo-com.svg"
+    alt="Close window icon"
+    width="30"
+    height="30"
+    (click)="closeWindow()"
+  />
+  <section>
+    <span
+      ><label for="Ahorros">Tipo de cuenta:</label><br />
+      <div>
+        <input
+          type="radio"
+          name="type_of_account"
+          id="Ahorros"
+          value="Ahorros"
+          [(ngModel)]="type_of_account"
+          (change)="generateAccountNumber()"
+        />
+        <label for="Ahorros">Ahorros</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          name="type_of_account"
+          id="Corriente"
+          value="Corriente"
+          [(ngModel)]="type_of_account"
+          (change)="generateAccountNumber()"
+        />
+        <label for="Corriente">Corriente</label>
+      </div></span
+    >
+
+    <span
+      ><div>
+        <label for="GMF">Exenta de GMF</label>
+        <input
+          type="checkbox"
+          name="exempt_of_gmf"
+          id="GMF"
+          [disabled]="activateFiels"
+          (click)="gmfSwitch()"
+          [(ngModel)]="exemptGMF"
+          [value]="exemptGMF"
+        /></div
+    ></span>
+    <span
+      ><div>
+        <label for="">Número de cuenta:</label>
+        <input
+          type="number"
+          name="account_number"
+          [value]="accountNumber"
+          disabled
+        /></div
+    ></span>
+  </section>
+  <input type="button" value="Confirmar" (click)="formSubmit()" />
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+@Output() windowSwitch= new EventEmitter<string>();
+
+openWindow(windowComponentName: string){
+  this.windowSwitch.emit(windowComponentName);
+}
 
 }

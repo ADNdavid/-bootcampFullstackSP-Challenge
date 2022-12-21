@@ -5,6 +5,8 @@ import com.adndavid.adnbank.repository.FinancialMovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FinancialMovementServiceImplementation implements FinancialMovementService{
 
@@ -16,6 +18,10 @@ public class FinancialMovementServiceImplementation implements FinancialMovement
         return financialMovementRepository.save(financialMovement);
     }
 
+    @Override
+    public List<FinancialMovement> findFinancialMovements(long accountNumber) {
+        return financialMovementRepository.findMovementsByAccountNumber(accountNumber);
+    }
     @Override
     public float calculateGmf() {
         return 0;
