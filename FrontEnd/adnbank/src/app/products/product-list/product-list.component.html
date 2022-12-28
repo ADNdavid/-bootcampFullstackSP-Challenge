@@ -62,6 +62,7 @@
           *ngFor="let product of products[0]"
           (click)="getProductToChange(product['account_number'])"
           class="accountInfo"
+          [ngClass]="{'taxExempt': product['exempt_of_gmf']}"
         >
           <td>{{ product["product_id"] }}</td>
           <td>{{ product["type_of_account"] }}</td>

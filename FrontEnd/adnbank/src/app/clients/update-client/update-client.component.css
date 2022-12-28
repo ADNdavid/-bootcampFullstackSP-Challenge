@@ -14,6 +14,7 @@
     border-style: solid;
     padding: 5rem;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    z-index: 1;
 }
 
 h1 {
@@ -39,6 +40,10 @@ input {
     margin-left: 1rem;
 }
 
+span input[type="button"]{
+    font-size: 1.5rem;
+}
+
 section {
     display: flex;
     flex-direction: row;
@@ -48,6 +53,13 @@ section {
     height: 30vh;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+}
+
+section + span{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
 }
 
 img{

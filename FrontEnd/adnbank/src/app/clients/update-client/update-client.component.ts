@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output,Input } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { ClientService } from 'src/services/client.service';
   styleUrls: ['./update-client.component.css']
 })
 export class UpdateClientComponent implements OnInit {
+  @Input()  currentUser:any;
 
   ngOnInit(): void {
   }
@@ -116,7 +117,7 @@ export class UpdateClientComponent implements OnInit {
     console.log(this.client);
     if (this.correctlyCompletedForm()) {
       /*if (this.adultChecker()) { */
-      this.client.last_modification_user = "newAdmin";
+      this.client.last_modification_user = this.currentUser;
       this.client.last_modification_date = this.calculateDate();
       this.clientService.updateClient(this.client, this.clientId).subscribe(
         (data) => {

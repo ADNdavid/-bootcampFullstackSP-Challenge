@@ -9,6 +9,7 @@ import { ClientService } from 'src/services/client.service';
 export class CreateProductComponent {
 
   @Input() clientOwner: any;
+  @Input() currentUser:any;
 
   constructor(private clientService: ClientService) { }
 
@@ -96,9 +97,9 @@ export class CreateProductComponent {
       this.product.current_balance = 0;
       this.product.available_balance = 0;
       this.product.exempt_of_gmf = this.taxChecker();
-      this.product.creation_user = "Admin";
+      this.product.creation_user = this.currentUser;
       this.product.creation_date_of_the_account = this.calculateDate();
-      this.product.last_modification_user = "Admin";
+      this.product.last_modification_user = this.currentUser;
       this.product.last_modification_date = this.calculateDate();
       this.product.client_owner = this.clientOwner;
       this.clientService.createProduct(this.product).subscribe(

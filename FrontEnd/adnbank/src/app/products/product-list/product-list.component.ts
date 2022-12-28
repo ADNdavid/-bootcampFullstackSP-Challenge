@@ -10,6 +10,7 @@ import { ClientService } from 'src/services/client.service';
 export class ProductListComponent {
 
   @Input() clientOwner: any;
+  @Input() currentUser:any;
 
   deactivateInputs: boolean = true;
   windowName:string='';
@@ -90,7 +91,7 @@ export class ProductListComponent {
       }
 
       this.productToUpdate.last_modification_date = this.calculateDate();
-      this.productToUpdate.last_modification_user = "newAdmin";
+      this.productToUpdate.last_modification_user = this.currentUser;
 
       this.clientService.updateProduct(this.productToUpdate, this.productToUpdate.account_number).subscribe(
         (data) => {
@@ -119,7 +120,7 @@ export class ProductListComponent {
         this.productToUpdate.state = "Cancelada";
         this.productToUpdate.exempt_of_gmf = "false";
         this.productToUpdate.last_modification_date = this.calculateDate();
-        this.productToUpdate.last_modification_user = "newAdmin";
+        this.productToUpdate.last_modification_user = this.currentUser;
 
         this.clientService.updateProduct(this.productToUpdate, this.productToUpdate.account_number).subscribe(
           (data) => {
@@ -150,7 +151,7 @@ export class ProductListComponent {
 
             product['exempt_of_gmf'] = false;
             product['last_modification_date'] = this.calculateDate();
-            product['last_modification_user'] = "newAdmin";
+            product['last_modification_user'] = this.currentUser;
 
             this.clientService.updateProduct(product, product['account_number']).subscribe(
               (data) => {
@@ -165,7 +166,7 @@ export class ProductListComponent {
 
         this.productToUpdate.exempt_of_gmf = true;
         this.productToUpdate.last_modification_date = this.calculateDate();
-        this.productToUpdate.last_modification_user = "newAdmin";
+        this.productToUpdate.last_modification_user = this.currentUser;
 
         this.clientService.updateProduct(this.productToUpdate, this.productToUpdate.account_number).subscribe(
           (data) => {

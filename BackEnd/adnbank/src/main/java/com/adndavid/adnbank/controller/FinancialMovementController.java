@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/movements")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200/")
 public class FinancialMovementController {
 
     @Autowired

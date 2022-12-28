@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { ClientService } from 'src/services/client.service';
   styleUrls: ['./create-client.component.css']
 })
 export class CreateClientComponent implements OnInit  {  
+  @Input()  currentUser:any;
 
   public client:any= {
     type_of_identification: null,
@@ -73,9 +74,9 @@ export class CreateClientComponent implements OnInit  {
     console.log(this.client);    
     if(this.correctlyCompletedForm()){   
         if(this.adultChecker()){
-          this.client.creation_user="Admin";
+          this.client.creation_user=this.currentUser;
           this.client.creation_date_of_the_account=this.calculateDate();
-          this.client.last_modification_user="Admin";
+          this.client.last_modification_user=this.currentUser;
           this.client.last_modification_date=this.calculateDate();
                 this.clientService.createClient(this.client).subscribe(
                 (data) =>{
@@ -99,6 +100,10 @@ export class CreateClientComponent implements OnInit  {
 
     closeWindow():void{
       this.windowSwitch.emit();
+      this.cleanForm();
+    }
+
+    cleanForm(){
       this.client.type_of_identification= null;
       this.client.identification_number= null;
       this.client.name= null;

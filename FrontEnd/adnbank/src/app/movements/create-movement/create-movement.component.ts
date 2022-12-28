@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -7,7 +7,8 @@ import { ClientService } from 'src/services/client.service';
   styleUrls: ['./create-movement.component.css']
 })
 export class CreateMovementComponent {
-
+  @Input() currentUser:any;
+  
   constructor(private clientService: ClientService) { }
 
   type_of_transaction: string = "";
@@ -133,7 +134,7 @@ export class CreateMovementComponent {
       }
 
       this.targetProduct.last_modification_date = this.calculateDate();
-      this.targetProduct.last_modification_user = "newAdmin";
+      this.targetProduct.last_modification_user = this.currentUser;
 
       this.clientService.updateProduct(this.targetProduct, this.movement.target_product).subscribe(
         (data) => {
@@ -150,7 +151,7 @@ export class CreateMovementComponent {
       this.movement.type_of_movement = "Crédito";
       this.movement.current_balance = this.targetProduct.current_balance;
       this.movement.available_balance = this.targetProduct.available_balance;
-      this.movement.creation_user = "newAdmin";
+      this.movement.creation_user = this.currentUser;
       this.movement.successful_transaction = true;
       this.clientService.createMovement(this.movement).subscribe(
         (data) => {
@@ -218,7 +219,7 @@ export class CreateMovementComponent {
       if (this.movement.successful_transaction === true) {
 
         this.originProduct.last_modification_date = this.calculateDate();
-        this.originProduct.last_modification_user = "newAdmin";
+        this.originProduct.last_modification_user = this.currentUser;
 
         this.clientService.updateProduct(this.originProduct, this.movement.origin_product).subscribe(
           (data) => {
@@ -236,7 +237,7 @@ export class CreateMovementComponent {
         this.movement.type_of_movement = "Débito";
         this.movement.current_balance = this.originProduct.current_balance + taxAmount;
         this.movement.available_balance = this.originProduct.available_balance + taxAmount;
-        this.movement.creation_user = "newAdmin";
+        this.movement.creation_user = this.currentUser;
         this.clientService.createMovement(this.movement).subscribe(
           (data) => {
             console.log(data);
@@ -258,7 +259,7 @@ export class CreateMovementComponent {
             available_balance: this.originProduct.available_balance,
             origin_product: this.movement.origin_product,
             target_product: null,
-            creation_user: "newAdmin",
+            creation_user: this.currentUser,
             successful_transaction: true
           }
 
@@ -278,7 +279,7 @@ export class CreateMovementComponent {
         this.movement.type_of_movement = "Débito";
         this.movement.current_balance = this.originProduct.current_balance;
         this.movement.available_balance = this.originProduct.available_balance;
-        this.movement.creation_user = "newAdmin";
+        this.movement.creation_user = this.currentUser;
         this.movement.description = "Operación fallida"
         this.clientService.createMovement(this.movement).subscribe(
           (data) => {

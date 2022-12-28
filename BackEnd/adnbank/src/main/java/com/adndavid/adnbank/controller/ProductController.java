@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200/")
 public class ProductController {
 
     @Autowired
@@ -34,12 +34,7 @@ public class ProductController {
             return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
         }
     }
-/*
-    @GetMapping
-    public ResponseEntity<List<Client>> findAllClients(){
-        return new ResponseEntity<>(clientService.findAllClients(),HttpStatus.OK);
-    }
-*/
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
         return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.CREATED);
@@ -59,7 +54,7 @@ public class ProductController {
 
             productService.updateProduct(currentProduct);
 
-            return new ResponseEntity<Product>(HttpStatus.OK); //Revisar
+            return new ResponseEntity<Product>(HttpStatus.OK); //check later
         }catch (Exception exception){
             return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
         }

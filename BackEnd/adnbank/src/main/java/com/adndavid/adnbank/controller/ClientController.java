@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200/")
 public class ClientController {
 
     @Autowired
@@ -64,7 +64,7 @@ public class ClientController {
 
             clientService.updateClient(currentClient);
 
-            return new ResponseEntity<Client>(HttpStatus.OK); //Revisar
+            return new ResponseEntity<Client>(HttpStatus.OK); //Check later
         }catch (Exception exception){
             return new ResponseEntity<Client>(HttpStatus.NOT_FOUND);
         }

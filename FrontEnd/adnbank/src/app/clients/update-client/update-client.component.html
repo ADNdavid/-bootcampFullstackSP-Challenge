@@ -88,7 +88,7 @@
         minlength="2"
     /></span>
     <span>
-      <label for="e_mail">Correo electrónico</label>
+      <label for="e_mail">Correo electrónico:</label>
       <input
         type="email"
         [value]="client.e_mail"
@@ -141,28 +141,29 @@
     /></span>
     <!-- </form> -->
   </section>
+  <span>
+    <input
+      type="button"
+      value="Crear cuenta"
+      [disabled]="activateFiels_1"
+      (click)="openWindow('createProduct')" />
 
-  <input
-    type="button"
-    value="Crear cuenta"
-    [disabled]="activateFiels_1"
-    (click)="openWindow('createProduct')"
-  />
-
-  <input
-    type="button"
-    value="Consultar productos"
-    [disabled]="activateFiels_1"
-    (click)="openWindow('productList')"
-  />
+    <input
+      type="button"
+      value="Consultar productos"
+      [disabled]="activateFiels_1"
+      (click)="openWindow('productList')"
+  /></span>
 </div>
 <app-create-product
   *ngIf="windowName == 'createProduct'"
-  [clientOwner]="client.identification_number"  
+  [clientOwner]="client.identification_number"
+  [currentUser]="currentUser"
   (windowSwitch)="windowName = $event"
 ></app-create-product>
 <app-product-list
-*ngIf="windowName == 'productList'"
+  *ngIf="windowName == 'productList'"
   [clientOwner]="client.identification_number"
+  [currentUser]="currentUser"
   (windowSwitch)="windowName = $event"
 ></app-product-list>
