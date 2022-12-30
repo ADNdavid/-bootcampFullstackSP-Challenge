@@ -7,8 +7,8 @@ import { ClientService } from 'src/services/client.service';
   styleUrls: ['./create-movement.component.css']
 })
 export class CreateMovementComponent {
-  @Input() currentUser:any;
-  
+  @Input() currentUser: any;
+
   constructor(private clientService: ClientService) { }
 
   type_of_transaction: string = "";
@@ -55,9 +55,9 @@ export class CreateMovementComponent {
       return false;
     } else if ((this.type_of_transaction === 'Retiro') && (this.movement.origin_product === null)) {
       return false;
-    } else if ((this.type_of_transaction === 'Transferencia') && 
-                (((this.movement.origin_product === null) || (this.movement.target_product === null)) || 
-                  (this.movement.origin_product === this.movement.target_product))) {
+    } else if ((this.type_of_transaction === 'Transferencia') &&
+      (((this.movement.origin_product === null) || (this.movement.target_product === null)) ||
+        (this.movement.origin_product === this.movement.target_product))) {
       return false;
     } else {
       return true;
@@ -139,7 +139,7 @@ export class CreateMovementComponent {
       this.clientService.updateProduct(this.targetProduct, this.movement.target_product).subscribe(
         (data) => {
           console.log(data);
-          alert('producto actalizado con exito.');
+          alert('Producto de destino actualizado con éxito.');
         }, (error) => {
           console.log(error);
           alert('No se pudo modificar el producto');
@@ -156,7 +156,7 @@ export class CreateMovementComponent {
       this.clientService.createMovement(this.movement).subscribe(
         (data) => {
           console.log(data);
-          alert('transacción realizada con exito.');
+          alert('transacción realizada con éxito.');
         }, (error) => {
           console.log(error);
           alert('No se pudo realizar la transación');
@@ -224,7 +224,7 @@ export class CreateMovementComponent {
         this.clientService.updateProduct(this.originProduct, this.movement.origin_product).subscribe(
           (data) => {
             console.log(data);
-            alert('producto actalizado con exito.');
+            alert('Producto de origen actualizado con éxito.');
           }, (error) => {
             console.log(error);
             alert('No se pudo modificar el producto');
@@ -241,38 +241,40 @@ export class CreateMovementComponent {
         this.clientService.createMovement(this.movement).subscribe(
           (data) => {
             console.log(data);
-            alert('transacción realizada con exito.');
+            alert('Transacción realizada con éxito.');
           }, (error) => {
             console.log(error);
             alert('No se pudo realizar la transación');
           }
         );
-
-        if (this.originProduct.exempt_of_gmf === false) {
-          let gmfMovement: any = {
-            movement_date: this.calculateDate(),
-            type_of_transaction: this.type_of_transaction,
-            description: "Gravámen Movimiento Financiero",
-            type_of_movement: "Débito",
-            amount: taxAmount,
-            current_balance: this.originProduct.current_balance,
-            available_balance: this.originProduct.available_balance,
-            origin_product: this.movement.origin_product,
-            target_product: null,
-            creation_user: this.currentUser,
-            successful_transaction: true
-          }
-
-          this.clientService.createMovement(gmfMovement).subscribe(
-            (data) => {
-              console.log(data);
-              alert('Impuesto debitado con exito.');
-            }, (error) => {
-              console.log(error);
-              alert('No se pudo debitar el impuesto');
+        setTimeout(() => {
+          if (this.originProduct.exempt_of_gmf === false) {
+            let gmfMovement: any = {
+              movement_date: this.calculateDate(),
+              type_of_transaction: this.type_of_transaction,
+              description: "Gravámen Movimiento Financiero",
+              type_of_movement: "Débito",
+              amount: taxAmount,
+              current_balance: this.originProduct.current_balance,
+              available_balance: this.originProduct.available_balance,
+              origin_product: this.movement.origin_product,
+              target_product: null,
+              creation_user: this.currentUser,
+              successful_transaction: true
             }
-          );
-        }
+
+            this.clientService.createMovement(gmfMovement).subscribe(
+              (data) => {
+                console.log(data);
+                alert('Impuesto debitado con exito.');
+              }, (error) => {
+                console.log(error);
+                alert('No se pudo debitar el impuesto');
+              }
+            );
+          }
+        }, 1000);
+
       } else if (this.movement.successful_transaction === false) {
         this.movement.movement_date = this.calculateDate();
         this.movement.type_of_transaction = this.type_of_transaction;
@@ -310,12 +312,13 @@ export class CreateMovementComponent {
     } else {
       alert("Diligencia correctamente los campos");
     }
-
-    this.type_of_transaction='';
-    this.movement.amount=null;
-    this.movement.origin_product=null;
-    this.movement.target_product=null;
-    this.movement.description=null;
+    setTimeout(() => {
+      this.type_of_transaction = '';
+      this.movement.amount = null;
+      this.movement.origin_product = null;
+      this.movement.target_product = null;
+      this.movement.description = null;
+    }, 3000);
   }
 
 
@@ -333,9 +336,9 @@ export class CreateMovementComponent {
   }
 
 
-  @Output() windowSwitch= new EventEmitter<string>();
+  @Output() windowSwitch = new EventEmitter<string>();
 
-  closeWindow():void{
+  closeWindow(): void {
     this.windowSwitch.emit();
   }
 }

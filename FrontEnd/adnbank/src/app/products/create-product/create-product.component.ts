@@ -49,10 +49,13 @@ export class CreateProductComponent {
       prefix = "23";
       this.activateFiels = true;
       this.exemptGMF = false;
-    }
+    }  
+    this.accountNumber = parseInt(prefix + suffix);
+
     console.log(this.type_of_account);
     console.log(this.exemptGMF);
-    this.accountNumber = parseInt(prefix + suffix);
+    this.getProducts();
+
     return this.accountNumber;
   }
 
@@ -130,7 +133,7 @@ export class CreateProductComponent {
   }
 
   taxChecker(): boolean {
-    if (this.products[0].length === 0) {
+    if (this.products[0].length === 0 && this.type_of_account === "Ahorros") {
       console.log(this.products[0].length);
       this.exemptGMF = true;
       return this.exemptGMF;

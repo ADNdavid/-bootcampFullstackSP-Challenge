@@ -21,7 +21,7 @@ public class Product {
     private String creation_user;
     private LocalDateTime last_modification_date;
     private String last_modification_user;
-    private int client_owner;
+    private String client_owner;
 
     public Product(){
     }
@@ -114,11 +114,11 @@ public class Product {
         this.last_modification_user = last_modification_user;
     }
 
-    public int getClient_owner() {
+    public String getClient_owner() {
         return client_owner;
     }
 
-    public void setClient_owner(int client_owner) {
+    public void setClient_owner(String client_owner) {
         this.client_owner = client_owner;
     }
 }

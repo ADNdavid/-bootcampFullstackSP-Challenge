@@ -87,6 +87,7 @@ export class CreateClientComponent implements OnInit  {
                   alert('No se pudo ingresar el cliente');
                   }
               )
+              this.closeWindow();
           } else{
             alert("no puedes crear una cuenta, eres menor de edad");      
             }
