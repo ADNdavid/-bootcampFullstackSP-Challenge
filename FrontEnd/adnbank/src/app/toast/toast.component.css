@@ -1,0 +1,50 @@
+.container{
+    z-index: 4;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    bottom: 5rem;
+    right: 8rem;         
+}
+
+span{
+    animation: fadeInDown 4s ease;    
+    height: 4.5rem;
+    min-width: 20rem;
+    max-width: 30rem;
+    background-color: #e9ecef;
+    border: 0.2rem solid;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+p{
+    padding-left: 0.5rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-align: justify;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 1;
+        transform: translateY(2rem);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+}

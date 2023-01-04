@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -8,13 +9,18 @@ import { ClientService } from 'src/services/client.service';
 })
 export class CreateMovementComponent {
   @Input() currentUser: any;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
   constructor(private clientService: ClientService) { }
 
   type_of_transaction: string = "";
+  hintVisible: boolean = false;
+  message: string = '';
+  statusIcon: string = 'loading';
   accountNumber: number = 0;
   deactivateOriginInput: boolean = true;
   deactivateTargetInput: boolean = true;
+  deactivateButton: boolean = false;
   exemptGMF: boolean = false;
 
   public movement: any = {
@@ -98,9 +104,16 @@ export class CreateMovementComponent {
         this.originProduct.exempt_of_gmf = JSON.parse(JSON.stringify(data))['exempt_of_gmf'];
         console.log("la cuenta esta:" + this.originProduct.state);
       }, (error) => {
-        console.log(error);
+        console.log(error);        
       }
     );
+    setTimeout(() => {
+      if(this.originProduct.state === 'Cancelada'){
+        this.toast.alertMessage('El producto de origen con número de cuenta: ' + this.originProduct.account_number + ', ha sido cancelado','warning');
+      }else if(this.originProduct.account_number === null){
+        this.toast.alertMessage('El número de cuenta ingresado no ha sido encontrado en la base de datos','error');
+      }
+    }, 100);
   }
 
   getTargetProduct(): any {
@@ -115,14 +128,22 @@ export class CreateMovementComponent {
         console.log("la cuenta esta:" + this.targetProduct.state);
       }, (error) => {
         console.log(error);
+        this.toast.alertMessage('El producto de destino con número de cuenta: ' + this.movement.target_product + ', no ha sido encontrado','error');
       }
     );
+    setTimeout(() => {
+      if(this.targetProduct.state === 'Cancelada'){
+        this.toast.alertMessage('El producto de destino con número de cuenta: ' + this.targetProduct.account_number + ', ha sido cancelado','warning');
+      }else if(this.originProduct.account_number === null){
+        this.toast.alertMessage('El número de cuenta ingresado no ha sido encontrado en la base de datos','error');
+      }
+    }, 100);
   }
 
 
   deposit() {
     if (this.targetProduct.state === null || this.targetProduct.state === 'Cancelada') {
-      alert("No es posible realizar la consignación");
+      this.alertMessage('No es posible realizar la operación', 'error');
 
     } else {
       let newBalance: number = this.targetProduct.current_balance + this.movement.amount;
@@ -132,42 +153,45 @@ export class CreateMovementComponent {
       } else {
         this.targetProduct.available_balance = newBalance - newBalance * (4 / 1000);
       }
+      setTimeout(() => {
+        this.targetProduct.last_modification_date = this.calculateDate();
+        this.targetProduct.last_modification_user = this.currentUser;
 
-      this.targetProduct.last_modification_date = this.calculateDate();
-      this.targetProduct.last_modification_user = this.currentUser;
+        this.clientService.updateProduct(this.targetProduct, this.movement.target_product).subscribe(
+          (data) => {
+            console.log(data);
+            this.alertMessage('Producto de destino actualizado con éxito', 'success');
+          }, (error) => {
+            console.log(error);
+            this.alertMessage('No se pudo modificar el producto', 'error');
+          }
+        );
+      }, 200);
 
-      this.clientService.updateProduct(this.targetProduct, this.movement.target_product).subscribe(
-        (data) => {
-          console.log(data);
-          alert('Producto de destino actualizado con éxito.');
-        }, (error) => {
-          console.log(error);
-          alert('No se pudo modificar el producto');
-        }
-      );
-
-      this.movement.movement_date = this.calculateDate();
-      this.movement.type_of_transaction = this.type_of_transaction;
-      this.movement.type_of_movement = "Crédito";
-      this.movement.current_balance = this.targetProduct.current_balance;
-      this.movement.available_balance = this.targetProduct.available_balance;
-      this.movement.creation_user = this.currentUser;
-      this.movement.successful_transaction = true;
-      this.clientService.createMovement(this.movement).subscribe(
-        (data) => {
-          console.log(data);
-          alert('transacción realizada con éxito.');
-        }, (error) => {
-          console.log(error);
-          alert('No se pudo realizar la transación');
-        }
-      );
+      setTimeout(() => {
+        this.movement.movement_date = this.calculateDate();
+        this.movement.type_of_transaction = this.type_of_transaction;
+        this.movement.type_of_movement = "Crédito";
+        this.movement.current_balance = this.targetProduct.current_balance;
+        this.movement.available_balance = this.targetProduct.available_balance;
+        this.movement.creation_user = this.currentUser;
+        this.movement.successful_transaction = true;
+        this.clientService.createMovement(this.movement).subscribe(
+          (data) => {
+            console.log(data);
+            this.alertMessage('Transacción realizada con éxito', 'success');
+          }, (error) => {
+            console.log(error);
+            this.alertMessage('No se pudo realizar la transación', 'error');
+          }
+        );
+      }, 400);
     }
   }
 
   withdraw() {
     if (this.originProduct.state === null || this.originProduct.state === 'Cancelada' || this.originProduct.state === 'Inactiva') {
-      alert("No es posible realizar el retiro");
+      this.alertMessage('No es posible realizar el retiro', 'error');
 
     } else {
       let newBalance: number;
@@ -183,7 +207,7 @@ export class CreateMovementComponent {
         newBalance = this.originProduct.current_balance - this.movement.amount;
 
         if (newBalance < 0) {
-          alert("No es posible realizar el retiro, fondos insuficientes");
+          this.alertMessage('No es posible realizar la operación, fondos insuficientes', 'error');
           this.movement.successful_transaction = false;
         } else {
           this.originProduct.current_balance = newBalance;
@@ -196,7 +220,7 @@ export class CreateMovementComponent {
         newBalance = this.originProduct.current_balance - this.movement.amount - taxAmount;
 
         if (newBalance < CREDITLIMIT) {
-          alert("No es posible realizar el retiro, fondos insuficientes");
+          this.alertMessage('No es posible realizar la operación, fondos insuficientes', 'error');
           this.movement.successful_transaction = false;
         } else {
           this.originProduct.current_balance = newBalance;
@@ -207,7 +231,7 @@ export class CreateMovementComponent {
         newBalance = this.originProduct.current_balance - this.movement.amount - taxAmount;
 
         if (newBalance <= 0) {
-          alert("No es posible realizar el retiro, fondos insuficientes");
+          this.alertMessage('No es posible realizar la operación, fondos insuficientes', 'error');
           this.movement.successful_transaction = false;
         } else {
           this.originProduct.current_balance = newBalance;
@@ -217,38 +241,43 @@ export class CreateMovementComponent {
       }
 
       if (this.movement.successful_transaction === true) {
-
-        this.originProduct.last_modification_date = this.calculateDate();
-        this.originProduct.last_modification_user = this.currentUser;
-
-        this.clientService.updateProduct(this.originProduct, this.movement.origin_product).subscribe(
-          (data) => {
-            console.log(data);
-            alert('Producto de origen actualizado con éxito.');
-          }, (error) => {
-            console.log(error);
-            alert('No se pudo modificar el producto');
-          }
-        );
-
-
-        this.movement.movement_date = this.calculateDate();
-        this.movement.type_of_transaction = this.type_of_transaction;
-        this.movement.type_of_movement = "Débito";
-        this.movement.current_balance = this.originProduct.current_balance + taxAmount;
-        this.movement.available_balance = this.originProduct.available_balance + taxAmount;
-        this.movement.creation_user = this.currentUser;
-        this.clientService.createMovement(this.movement).subscribe(
-          (data) => {
-            console.log(data);
-            alert('Transacción realizada con éxito.');
-          }, (error) => {
-            console.log(error);
-            alert('No se pudo realizar la transación');
-          }
-        );
         setTimeout(() => {
-          if (this.originProduct.exempt_of_gmf === false) {
+          this.originProduct.last_modification_date = this.calculateDate();
+          this.originProduct.last_modification_user = this.currentUser;
+
+          this.clientService.updateProduct(this.originProduct, this.movement.origin_product).subscribe(
+            (data) => {
+              console.log(data);
+              this.alertMessage('Producto de origen actualizado con éxito', 'success');
+            }, (error) => {
+              console.log(error);
+              this.alertMessage('No se pudo modificar el producto', 'error');
+            }
+          );
+
+        }, 50);
+
+        setTimeout(() => {
+          this.movement.movement_date = this.calculateDate();
+          this.movement.type_of_transaction = this.type_of_transaction;
+          this.movement.type_of_movement = "Débito";
+          this.movement.current_balance = this.originProduct.current_balance + taxAmount;
+          this.movement.available_balance = this.originProduct.available_balance + taxAmount;
+          this.movement.creation_user = this.currentUser;
+          this.clientService.createMovement(this.movement).subscribe(
+            (data) => {
+              console.log(data);
+              this.alertMessage('Transacción realizada con éxito', 'success');
+            }, (error) => {
+              console.log(error);
+              this.alertMessage('No se pudo realizar la transación', 'error');
+            }
+          );
+        }, 100);
+
+
+        if (this.originProduct.exempt_of_gmf === false) {
+          setTimeout(() => {
             let gmfMovement: any = {
               movement_date: this.calculateDate(),
               type_of_transaction: this.type_of_transaction,
@@ -266,14 +295,15 @@ export class CreateMovementComponent {
             this.clientService.createMovement(gmfMovement).subscribe(
               (data) => {
                 console.log(data);
-                alert('Impuesto debitado con exito.');
+                this.alertMessage('Impuesto debitado con exito', 'success');
               }, (error) => {
                 console.log(error);
-                alert('No se pudo debitar el impuesto');
+                this.alertMessage('No se pudo debitar el impuesto', 'error');
               }
             );
-          }
-        }, 1000);
+          }, 1100);
+        }
+
 
       } else if (this.movement.successful_transaction === false) {
         this.movement.movement_date = this.calculateDate();
@@ -296,42 +326,49 @@ export class CreateMovementComponent {
   }
 
   formSubmit() {
+    this.hintVisible = true;
     if (this.correctlyCompletedForm()) {
-      alert("los campos son correctos");
-      if (this.type_of_transaction === 'Consignación') {
-        this.deposit();
-      } else if (this.type_of_transaction === 'Retiro') {
-        this.withdraw();
-      } else if (this.type_of_transaction === 'Transferencia') {
-        this.withdraw();
-        if (this.movement.successful_transaction === true) {
+      this.deactivateButton = true;
+      setTimeout(() => {
+        this.alertMessage('Los campos son correctos', 'success');
+        if (this.type_of_transaction === 'Consignación') {
           this.deposit();
+        } else if (this.type_of_transaction === 'Retiro') {
+          this.withdraw();
+        } else if (this.type_of_transaction === 'Transferencia') {
+          this.withdraw();
+          if (this.movement.successful_transaction === true) {
+            setTimeout(() => {
+              this.deposit();
+            }, 1000);
+          }
         }
-      }
-
+        setTimeout(() => {
+          this.cleanForm();
+        }, 3000);
+      }, 500);
     } else {
-      alert("Diligencia correctamente los campos");
+      this.alertMessage('Diligencia correctamente los campos', 'warning');
     }
-    setTimeout(() => {
-      this.type_of_transaction = '';
-      this.movement.amount = null;
-      this.movement.origin_product = null;
-      this.movement.target_product = null;
-      this.movement.description = null;
-    }, 3000);
   }
 
 
   deactivateForm() {
+    this.deactivateButton = false;
     if (this.type_of_transaction === 'Consignación') {
       this.deactivateOriginInput = true;
       this.deactivateTargetInput = false;
+      this.movement.origin_product = null;
     } else if (this.type_of_transaction === 'Retiro') {
       this.deactivateOriginInput = false;
       this.deactivateTargetInput = true;
+      this.movement.target_product = null;
     } else if (this.type_of_transaction === 'Transferencia') {
       this.deactivateOriginInput = false;
       this.deactivateTargetInput = false;
+    } else if (this.type_of_transaction === '') {
+      this.deactivateOriginInput = true;
+      this.deactivateTargetInput = true;
     }
   }
 
@@ -340,5 +377,29 @@ export class CreateMovementComponent {
 
   closeWindow(): void {
     this.windowSwitch.emit();
+    this.hintVisible = false;
+    this.cleanForm();
+  }
+
+  alertMessage(message: string, type_alert: string): void {
+    setTimeout(() => {
+      this.message = message;
+      if (type_alert === "warning") {
+        this.statusIcon = 'warning';
+      } else if (type_alert === "success") {
+        this.statusIcon = 'success';
+      } else if (type_alert === "error") {
+        this.statusIcon = 'error';
+      }
+    }, 200);
+  }
+
+  cleanForm() {
+    this.type_of_transaction = '';
+    this.movement.amount = null;
+    this.movement.origin_product = null;
+    this.movement.target_product = null;
+    this.movement.description = null;
+    this.deactivateForm();
   }
 }

@@ -72,4 +72,9 @@ img{
 img:hover{
     background-color: #dad7cd;
     border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="button"]:enabled{
+    cursor: pointer;
 }

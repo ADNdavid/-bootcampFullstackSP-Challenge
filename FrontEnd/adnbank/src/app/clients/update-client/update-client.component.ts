@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Output,Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output,Input, ViewChild } from '@angular/core';
+import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { ClientService } from 'src/services/client.service';
 })
 export class UpdateClientComponent implements OnInit {
   @Input()  currentUser:any;
+  @ViewChild(ToastComponent) toast!:ToastComponent;
 
   ngOnInit(): void {
   }
@@ -40,7 +42,7 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.getClientById(this.clientId).subscribe(
         (data) => {
           console.log(data);
-          alert('Cliente encontrado con exito.');
+          this.toast.alertMessage('Cliente encontrado con exito','success');
           this.client.client_id = JSON.parse(JSON.stringify(data))['client_id'];
           this.client.type_of_identification = JSON.parse(JSON.stringify(data))['type_of_identification'];
           this.client.identification_number = JSON.parse(JSON.stringify(data))['identification_number'];
@@ -55,7 +57,7 @@ export class UpdateClientComponent implements OnInit {
           this.activateFiels_1 = false;
         }, (error) => {
           console.log(error);
-          alert('No se pudo encontrar el cliente');
+          this.toast.alertMessage('No se pudo encontrar el cliente', 'error');
           this.cleanForm();
         }
       );      
@@ -122,17 +124,17 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.updateClient(this.client, this.clientId).subscribe(
         (data) => {
           console.log(data);
-          alert('Cliente modificado con exito.');
+          this.toast.alertMessage('Cliente modificado con exito','success');
         }, (error) => {
           console.log(error);
-          alert('No se pudo modificar el cliente');
+          this.toast.alertMessage('No se pudo modificar el cliente','error');
         }
       );
       /*} else {
         alert("no puedes editar la edad, eres menor de edad");
       }*/
     } else {
-      alert("ingresa el campo requerido:");
+      this.toast.alertMessage('Ingresa el campo requerido','warning');
     }
   }
 
@@ -141,10 +143,10 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.deleteClientById(this.clientId).subscribe(
         (data) => {
           console.log(data);
-          alert('Cliente eliminado con exito.');
+          this.toast.alertMessage('Cliente eliminado con exito','success');
         }, (error) => {
           console.log(error);
-          alert('No se pudo eliminar el cliente');
+          this.toast.alertMessage('No se pudo eliminar el cliente','error');
         }
       );
       this.cleanForm();      
@@ -171,7 +173,7 @@ export class UpdateClientComponent implements OnInit {
     } else {
       for (let product of this.products[0]) {
         if (product['state'] != "Cancelada") {
-          alert('El cliente aún posee productos activos o inactivos.');
+          this.toast.alertMessage('El cliente aún posee productos activos o inactivos','warning');
           condition = false;
           return condition;
         } else {

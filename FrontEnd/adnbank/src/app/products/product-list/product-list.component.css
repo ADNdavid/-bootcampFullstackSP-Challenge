@@ -26,6 +26,7 @@ img{
 img:hover{
     background-color: #dad7cd;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 h1 {
@@ -73,9 +74,9 @@ td{
     cursor: pointer;
 }
 
-.currency::before{
+/* .currency::before{
 content: "$";
-}
+} */
 
 section{
     display: flex;

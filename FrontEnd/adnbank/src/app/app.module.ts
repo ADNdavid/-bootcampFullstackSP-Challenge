@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CreateClientComponent } from './clients/create-client/create-client.component';
 import { UpdateClientComponent } from './clients/update-client/update-client.component';
@@ -15,6 +15,8 @@ import { CreateProductComponent } from './products/create-product/create-product
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { CreateMovementComponent } from './movements/create-movement/create-movement.component';
 import { FinancialStatementComponent } from './movements/financial-statement/financial-statement.component';
+import { AuthInterceptor } from './authentication/auth.interceptor';
+import { ToastComponent } from './toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { FinancialStatementComponent } from './movements/financial-statement/fin
     CreateProductComponent,
     ProductListComponent,
     CreateMovementComponent,
-    FinancialStatementComponent
+    FinancialStatementComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,11 @@ import { FinancialStatementComponent } from './movements/financial-statement/fin
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+    provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

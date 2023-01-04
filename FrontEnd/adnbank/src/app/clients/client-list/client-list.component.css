@@ -29,6 +29,7 @@ img {
 img:hover {
     background-color: #dad7cd;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 h1 {

@@ -1,4 +1,5 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -10,6 +11,7 @@ export class CreateProductComponent {
 
   @Input() clientOwner: any;
   @Input() currentUser:any;
+  @ViewChild(ToastComponent) toast!:ToastComponent;
 
   constructor(private clientService: ClientService) { }
 
@@ -108,15 +110,15 @@ export class CreateProductComponent {
       this.clientService.createProduct(this.product).subscribe(
         (data) => {
           console.log(data);
-          alert('Cuenta creada con exito.');
+          this.toast.alertMessage('Cuenta creada con exito', 'success');
         }, (error) => {
           console.log(error);
-          alert('No se pudo crear la Cuenta');
+          this.toast.alertMessage('No se pudo crear la Cuenta','error');
         }
       )
 
     } else {
-      alert("Selecciona el producto a crear:");
+      this.toast.alertMessage('Selecciona el producto a crear:','warning');
     }
   }
 
@@ -140,7 +142,7 @@ export class CreateProductComponent {
     } else {
       for (let product of this.products[0]) {
         if (product['exempt_of_gmf'] === true) {
-          alert("El cliente ya posee un producto exento de GMF \n Esto puede modificarse en el gestor de productos");
+          this.toast.alertMessage('El cliente ya posee un producto exento de GMF \n Esto puede modificarse en el gestor de productos','warning');
           this.exemptGMF = false;
           return this.exemptGMF;
         } else {

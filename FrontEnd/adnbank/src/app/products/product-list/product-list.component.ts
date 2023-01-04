@@ -1,5 +1,6 @@
 import { transition } from '@angular/animations';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
@@ -10,10 +11,11 @@ import { ClientService } from 'src/services/client.service';
 export class ProductListComponent {
 
   @Input() clientOwner: any;
-  @Input() currentUser:any;
+  @Input() currentUser: any;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
   deactivateInputs: boolean = true;
-  windowName:string='';
+  windowName: string = '';
 
   public productToUpdate: any = {
     type_of_account: null,
@@ -33,15 +35,24 @@ export class ProductListComponent {
 
   showProducts() {
     this.products.shift();
-    this.clientService.findProducts(this.clientOwner).subscribe(
-      (data) => {
-        console.log(data);
-        this.products.push(data);
-        console.log(this.products);
-      }, (error) => {
-        console.log(error);
-      }
-    )
+    setTimeout(() => {      
+      this.clientService.findProducts(this.clientOwner).subscribe(
+        (data) => {
+          console.log(data);
+          this.products.push(data);
+          console.log(this.products);
+        }, (error) => {
+          console.log(error);
+        }
+      );
+      setTimeout(() => {
+        for (let product of this.products[0]) {
+          let currency = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 1 });          
+          product["current_balance"] = currency.format(product["current_balance"]);
+          product["available_balance"] = currency.format(product["available_balance"]);
+        }
+      }, 60);
+    }, 50);
   }
 
   getProductToChange(accountNumber: number) {
@@ -82,7 +93,7 @@ export class ProductListComponent {
 
   changeStatus() {
     if (this.productToUpdate.state === "Cancelada") {
-      alert("El producto se encuentra cancelado, no se puede realizar esta acción");
+      this.toast.alertMessage('El producto se encuentra cancelado, no se puede realizar esta acción', 'error');
     } else {
       if (this.productToUpdate.state === 'Activa') {
         this.productToUpdate.state = 'Inactiva';
@@ -96,25 +107,25 @@ export class ProductListComponent {
       this.clientService.updateProduct(this.productToUpdate, this.productToUpdate.account_number).subscribe(
         (data) => {
           console.log(data);
-          alert('producto actalizado con exito.');
+          this.toast.alertMessage('Producto actualizado con éxito', 'success');
         }, (error) => {
           console.log(error);
-          alert('No se pudo modificar el producto');
+          this.toast.alertMessage('No se pudo modificar el producto', 'error');
         }
       );
-      alert("el producto ha sido " + this.productToUpdate.state + "do con exito.")
+      this.toast.alertMessage('El producto ha sido ' + this.productToUpdate.state + 'do con éxito', 'success')
       this.showProducts();
     }
   }
 
   cancelProduct() {
     if (this.productToUpdate.state === "Cancelada") {
-      alert("El producto ya se encuentra cancelado, no se puede realizar esta acción");
+      this.toast.alertMessage('El producto ya se encuentra cancelado, no se puede realizar esta acción', 'error');
     } else {
       if (this.productToUpdate.current_balance >= 1) {
-        alert("El producto cuenta con un saldo positivo de: $" + this.productToUpdate.current_balance + " por lo que no puede cancelarlo");
+        this.toast.alertMessage('El producto cuenta con un saldo positivo de: $' + this.productToUpdate.current_balance + ' por lo que no puede cancelarlo', 'warning');
       } else if (this.productToUpdate.current_balance < 0) {
-        alert("El producto cuenta con un saldo negativo de: $" + this.productToUpdate.current_balance + " por lo que no puede cancelarlo");
+        this.toast.alertMessage('El producto cuenta con un saldo negativo de: $' + this.productToUpdate.current_balance + ' por lo que no puede cancelarlo', 'warning');
       } else if (this.productToUpdate.current_balance >= 0 && this.productToUpdate.current_balance < 1) {
 
         this.productToUpdate.state = "Cancelada";
@@ -125,13 +136,13 @@ export class ProductListComponent {
         this.clientService.updateProduct(this.productToUpdate, this.productToUpdate.account_number).subscribe(
           (data) => {
             console.log(data);
-            alert('producto actalizado con exito.');
+            this.toast.alertMessage('Producto actualizado con éxito', 'success');
           }, (error) => {
             console.log(error);
-            alert('No se pudo modificar el producto');
+            this.toast.alertMessage('No se pudo modificar el producto', 'error');
           }
         );
-        alert("el producto ha sido cancelado con exito.");
+        this.toast.alertMessage('El producto ha sido cancelado con éxito', 'success');
         this.showProducts();
       }
     }
@@ -139,12 +150,12 @@ export class ProductListComponent {
 
   untaxMark() {
     if (this.productToUpdate.state === "Cancelada") {
-      alert("El producto se encuentra cancelado, no se puede realizar esta acción");
+      this.toast.alertMessage('El producto se encuentra cancelado, no se puede realizar esta acción', 'error');
     } else if (this.productToUpdate.type_of_account === "Corriente") {
-      alert("Las cuentas corrientes no cuentan con este beneficio, no se puede realizar esta acción");
+      this.toast.alertMessage('Las cuentas corrientes no cuentan con este beneficio, no se puede realizar esta acción', 'error');
     } else if (this.productToUpdate.type_of_account === "Ahorros") {
       if (this.productToUpdate.exempt_of_gmf === true) {
-        alert("La cuenta ya cuentan con este beneficio, no se puede realizar esta acción");
+        this.toast.alertMessage('El producto ya cuentan con este beneficio, no se puede realizar esta acción', 'error');
       } else {
         for (let product of this.products[0]) {
           if (product['exempt_of_gmf'] === true) {
@@ -175,7 +186,7 @@ export class ProductListComponent {
             console.log(error);
           }
         );
-        alert("La cuenta ha sido marcada con exito.");
+        this.toast.alertMessage('La cuenta ha sido marcada con éxito', 'success');
         this.showProducts();
       }
     }
@@ -187,8 +198,8 @@ export class ProductListComponent {
     this.windowSwitch.emit();
   }
 
-  openWindow(windowComponentName: string){
-    this.windowName=windowComponentName;
+  openWindow(windowComponentName: string) {
+    this.windowName = windowComponentName;
   }
 
 }

@@ -26,6 +26,7 @@ img {
 img:hover {
     background-color: #dad7cd;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 h1 {
@@ -95,8 +96,9 @@ table{
     cursor: pointer;
 }
 
-.currency::before {
-    content: "$";
+.currency {
+    text-align: right;
+    padding-right: 1rem;
 }
 
 [type="datetime-local"]{

@@ -1,13 +1,15 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
+import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
 @Component({
   selector: 'app-create-client',
   templateUrl: './create-client.component.html',
-  styleUrls: ['./create-client.component.css']
+  styleUrls: ['./create-client.component.css'],  
 })
 export class CreateClientComponent implements OnInit  {  
   @Input()  currentUser:any;
+  @ViewChild(ToastComponent) toast!:ToastComponent;
 
   public client:any= {
     type_of_identification: null,
@@ -81,18 +83,18 @@ export class CreateClientComponent implements OnInit  {
                 this.clientService.createClient(this.client).subscribe(
                 (data) =>{
                   console.log(data);
-                  alert('Cliente ingresado con exito.');
+                  this.toast.alertMessage('Cliente ingresado con exito', 'success');
                   },(error)=>{
                   console.log(error);
-                  alert('No se pudo ingresar el cliente');
+                  this.toast.alertMessage('No se pudo ingresar el cliente','error');
                   }
               )
               this.closeWindow();
           } else{
-            alert("no puedes crear una cuenta, eres menor de edad");      
+            this.toast.alertMessage('No puedes crear una cuenta, la persona es menor de edad','warning');
             }
       }else{
-        alert("ingresa el campo requerido:");       
+        this.toast.alertMessage('Ingresa el campo requerido','warning');       
         }
     }
 

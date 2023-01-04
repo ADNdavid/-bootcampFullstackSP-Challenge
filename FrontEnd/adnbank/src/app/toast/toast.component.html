@@ -1,0 +1,26 @@
+<div class="container">
+    <span *ngIf="toastVisible" [ngStyle]="{'border-color': borderColor}">
+    <img
+      src="../assets/icons/check-circle-svgrepo-com.svg"
+      alt="Success icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'success'"
+    />
+    <img
+      src="../assets/icons/warning-svgrepo-com.svg"
+      alt="Warning icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'warning'"
+    />
+    <img
+      src="../assets/icons/times-circle-svgrepo-com.svg"
+      alt="Error icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'error'"
+    />
+  <p>{{message}}</p>
+    </span>
+</div>

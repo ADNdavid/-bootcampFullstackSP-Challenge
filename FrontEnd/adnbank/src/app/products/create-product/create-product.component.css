@@ -46,6 +46,7 @@ img{
 img:hover{
     background-color: #dad7cd;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 section {
@@ -81,6 +82,7 @@ section {
 [type="button"]:hover {
     transform: translate(-50%, -46%);
     opacity: 1;
+    cursor: pointer;
 }
 
 [type="radio"], [type="checkbox"] {

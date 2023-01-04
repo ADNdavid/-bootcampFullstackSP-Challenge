@@ -82,6 +82,15 @@ input {
     padding-left: 1rem;
 }
 
+[type="text"]:not(:focus):invalid,
+[type="password"]:not(:focus):invalid{    
+    box-shadow: inset 0 0 0 0.15rem #FFCC4D;          
+}
+
+[type="button"]:hover {
+cursor: pointer;
+}
+
 label {
     margin-right: 0.6rem;
 }
@@ -120,6 +129,7 @@ label {
 .logIcon:hover {
     transition: transform 250ms linear;
     transform: rotate(90deg);
+    cursor: pointer;
 }
 
 .logIcon:not(hover) {
@@ -149,6 +159,7 @@ label {
 
 .devIcon:hover, .tools:hover {
     transform: scale(1.2) translateY(1%);
+    cursor: pointer;
 }
 
 .profile{

@@ -9,6 +9,7 @@ export class ClientService {
 
   constructor(private httpClient:HttpClient) { }
 
+  //Client request
   public createClient(client:any){
     return this.httpClient.post(`${baseUrl}/v0/api/clients`,client);
   }
@@ -29,14 +30,15 @@ export class ClientService {
     return this.httpClient.get(`${baseUrl}/v0/api/clients/`);
   }
 
-
-  //mover a un nuevo servicio
+  //Product request
   public createProduct(product:any){
     return this.httpClient.post(`${baseUrl}/v0/api/products`, product);
   }
+
   public findProducts(clientOwner:string){
     return this.httpClient.get(`${baseUrl}/v0/api/products/client/`+clientOwner);
   }
+
   public findProductByAccountNumber(accountNumber:number){
     return this.httpClient.get(`${baseUrl}/v0/api/products/`+accountNumber);
   }
@@ -45,11 +47,17 @@ export class ClientService {
     return this.httpClient.put(`${baseUrl}/v0/api/products/`+accountNumber,product);
   }
 
+  //Movement request
   public createMovement(financialMovement:any){
     return this.httpClient.post(`${baseUrl}/v0/api/movements`, financialMovement);
   }
 
   public findMovementsByAccountNumber(accountNumber:number){
     return this.httpClient.get(`${baseUrl}/v0/api/movements/`+accountNumber);
+  }
+
+  //User request
+  public login(user:any){
+    return this.httpClient.post(`${baseUrl}/v0/api/login`, user);
   }
 }

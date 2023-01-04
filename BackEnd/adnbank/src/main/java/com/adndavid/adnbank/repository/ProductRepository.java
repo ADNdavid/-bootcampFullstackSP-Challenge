@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value="SELECT * FROM products WHERE client_owner = ?1 ORDER BY state ASC, current_balance DESC;",nativeQuery = true)
+    @Query(value="((SELECT * FROM products WHERE client_owner = ?1 and state != 'Cancelada' )ORDER BY current_balance DESC, state ASC)\n" +
+            "union all\n" +
+            "((SELECT * FROM products WHERE client_owner = ?1 and state = 'Cancelada'));",nativeQuery = true)
     List<Product> findProductsByClientOwner(String clientOwner);
 
     @Query(value="SELECT * FROM products WHERE account_number = ?1",nativeQuery = true)

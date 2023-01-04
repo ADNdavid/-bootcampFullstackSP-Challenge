@@ -1,5 +1,6 @@
 <div class="container">
   <img
+    class="closeWindow"
     src="../assets/icons/close-svgrepo-com.svg"
     alt="Close window icon"
     width="30"
@@ -10,36 +11,37 @@
   <section>
     <label for="deposit">Tipo de transacción:</label><br />
     <div>
-    <span
-      ><label for="deposit">Consignación</label>
-      <input
-        type="radio"
-        name="type_of_transaction"
-        id="deposit"
-        value="Consignación"
-        [(ngModel)]="type_of_transaction"
-        (change)="deactivateForm()"
-    /></span>
-    <span
-      ><label for="withdraw">Retiro</label>
-      <input
-        type="radio"
-        name="type_of_transaction"
-        id="withdraw"
-        value="Retiro"
-        [(ngModel)]="type_of_transaction"
-        (change)="deactivateForm()"
-    /></span>
-    <span
-      ><label for="transfer">Transferencia</label>
-      <input
-        type="radio"
-        name="type_of_transaction"
-        id="transfer"
-        value="Transferencia"
-        [(ngModel)]="type_of_transaction"
-        (change)="deactivateForm()"
-    /></span></div>
+      <span
+        ><label for="deposit">Consignación</label>
+        <input
+          type="radio"
+          name="type_of_transaction"
+          id="deposit"
+          value="Consignación"
+          [(ngModel)]="type_of_transaction"
+          (change)="deactivateForm()"
+      /></span>
+      <span
+        ><label for="withdraw">Retiro</label>
+        <input
+          type="radio"
+          name="type_of_transaction"
+          id="withdraw"
+          value="Retiro"
+          [(ngModel)]="type_of_transaction"
+          (change)="deactivateForm()"
+      /></span>
+      <span
+        ><label for="transfer">Transferencia</label>
+        <input
+          type="radio"
+          name="type_of_transaction"
+          id="transfer"
+          value="Transferencia"
+          [(ngModel)]="type_of_transaction"
+          (change)="deactivateForm()"
+      /></span>
+    </div>
   </section>
   <br />
   <span
@@ -79,5 +81,32 @@
       name="description"
       [(ngModel)]="movement.description" /></span
   ><br />
-  <input type="button" value="Confirmar" (click)="formSubmit()" />
+  <span class="hint" *ngIf="hintVisible">
+    <img
+      src="../assets/icons/check-circle-svgrepo-com.svg"
+      alt="Success icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'success'"
+    />
+
+    <img
+      src="../assets/icons/warning-svgrepo-com.svg"
+      alt="Warning icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'warning'"
+    />
+    <img
+      src="../assets/icons/times-circle-svgrepo-com.svg"
+      alt="Error icon"
+      width="48"
+      height="48"
+      *ngIf="statusIcon == 'error'"
+    />
+    <div class="lds-dual-ring" *ngIf="statusIcon == 'loading'"></div>
+    <p>{{ message }}</p>
+  </span>
+  <input type="button" value="Confirmar" (click)="formSubmit()" [disabled]="deactivateButton"/>
 </div>
+<app-toast></app-toast>
