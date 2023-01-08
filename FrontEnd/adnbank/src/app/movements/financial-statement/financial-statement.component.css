@@ -101,6 +101,14 @@ table{
     padding-right: 1rem;
 }
 
+.income{
+    color: #52b788;
+}
+
+.expense{
+    color: #c1121f;
+}
+
 [type="datetime-local"]{
     border: 0;
     background-color: transparent;

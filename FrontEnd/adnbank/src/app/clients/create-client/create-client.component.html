@@ -17,7 +17,8 @@
         id="type_of_identification"
         placeholder="Cédula de ciudadanía"
         list="typeIdentification"
-        required />
+        required 
+        [disabled]="deactivateInputs"/>
       <datalist id="typeIdentification">
         <option value="Cédula de ciudadanía"></option>
         <option value="Cédula de extranjería"></option>
@@ -32,6 +33,7 @@
         id="identification_number"
         placeholder="Número de identificación"
         required
+        [disabled]="deactivateInputs"
     /></span>
     <span
       ><label for="name">Nombre completo:</label>
@@ -42,6 +44,7 @@
         placeholder="Ernesto"
         required
         minlength="2"
+        [disabled]="deactivateInputs"
     /></span>
     <span
       ><label for="lastname">Apellido completo:</label>
@@ -52,6 +55,7 @@
         placeholder="Pérez"
         required
         minlength="2"
+        [disabled]="deactivateInputs"
     /></span>
     <span
       ><label for="e_mail">Correo electrónico:</label>
@@ -61,6 +65,7 @@
         id="e_mail"
         placeholder="ejemplo@dominio.com"
         required
+        [disabled]="deactivateInputs"
     /></span>
     <span
       ><label for="born_date">Fecha de nacimiento:</label>
@@ -70,11 +75,12 @@
         id="born_date"
         placeholder="YYYY-MM-DD"
         required
+        [disabled]="deactivateInputs"
     /></span>
   </section>
   <br />
 
-  <input type="button" (click)="formSubmit()" value="Registrar" />
+  <input type="button" (click)="formSubmit()" value="Registrar" [disabled]="deactivateButton"/>
   <!-- </form> -->  
 </div>
 <app-toast></app-toast>

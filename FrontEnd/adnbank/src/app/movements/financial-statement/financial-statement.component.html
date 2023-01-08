@@ -15,7 +15,7 @@
     <span
       ><p>Tipo</p>
       <input type="text" [value]="productSelected.type_of_account" disabled
-    /></span>    
+    /></span>
   </section>
   <div>
     <table>
@@ -33,12 +33,21 @@
       <tbody>
         <tr *ngFor="let movement of movements[0]" class="movement">
           <td>
-            <input type="datetime-local" [value]="movement['movement_date']" disabled/>
+            <input
+              type="datetime-local"
+              [value]="movement['movement_date']"
+              disabled
+            />
           </td>
           <td>{{ movement["type_of_transaction"] }}</td>
           <td>{{ movement["description"] }}</td>
           <td>{{ movement["type_of_movement"] }}</td>
-          <td class="currency">{{ movement["amount"] }}</td>
+          <td
+            [ngClass]="{
+              'income': movement['type_of_movement'] === 'Crédito',
+              'expense': movement['type_of_movement'] === 'Débito'
+            }"
+          >{{ movement["amount"] }}</td>
           <td class="currency">{{ movement["current_balance"] }}</td>
           <td class="currency">{{ movement["available_balance"] }}</td>
         </tr>

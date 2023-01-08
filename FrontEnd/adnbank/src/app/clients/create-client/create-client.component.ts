@@ -11,6 +11,9 @@ export class CreateClientComponent implements OnInit  {
   @Input()  currentUser:any;
   @ViewChild(ToastComponent) toast!:ToastComponent;
 
+  deactivateButton:boolean = false;
+  deactivateInputs:boolean = false;
+
   public client:any= {
     type_of_identification: null,
     identification_number: null,
@@ -89,7 +92,8 @@ export class CreateClientComponent implements OnInit  {
                   this.toast.alertMessage('No se pudo ingresar el cliente','error');
                   }
               )
-              this.closeWindow();
+              this.deactivateButton=true;
+              this.deactivateInputs=true;
           } else{
             this.toast.alertMessage('No puedes crear una cuenta, la persona es menor de edad','warning');
             }
@@ -104,6 +108,8 @@ export class CreateClientComponent implements OnInit  {
     closeWindow():void{
       this.windowSwitch.emit();
       this.cleanForm();
+      this.deactivateButton=false;
+      this.deactivateInputs=false;
     }
 
     cleanForm(){

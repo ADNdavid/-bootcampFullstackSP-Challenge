@@ -63,10 +63,14 @@ section {
     opacity: 0.55;
 }
 
-[type="button"]:hover {
+[type="button"]:enabled:hover {
     transform: translate(-50%, -46%);
     opacity: 1;
     cursor: pointer;
+}
+
+[type="button"]:disabled:hover {
+    cursor: not-allowed;
 }
 
 input:valid {

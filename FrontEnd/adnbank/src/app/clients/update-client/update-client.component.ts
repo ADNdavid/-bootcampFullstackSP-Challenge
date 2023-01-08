@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output,Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { ToastComponent } from 'src/app/toast/toast.component';
 import { ClientService } from 'src/services/client.service';
 
@@ -8,8 +8,8 @@ import { ClientService } from 'src/services/client.service';
   styleUrls: ['./update-client.component.css']
 })
 export class UpdateClientComponent implements OnInit {
-  @Input()  currentUser:any;
-  @ViewChild(ToastComponent) toast!:ToastComponent;
+  @Input() currentUser: any;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
   ngOnInit(): void {
   }
@@ -17,7 +17,7 @@ export class UpdateClientComponent implements OnInit {
   clientId: number = 0;
   activateFiels_1: boolean = true;
   activateFiels_2: boolean = true;
-  windowName:string='';
+  windowName: string = '';
 
   products: Array<any> = [];
 
@@ -42,7 +42,7 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.getClientById(this.clientId).subscribe(
         (data) => {
           console.log(data);
-          this.toast.alertMessage('Cliente encontrado con exito','success');
+          this.toast.alertMessage('Cliente encontrado con exito', 'success');
           this.client.client_id = JSON.parse(JSON.stringify(data))['client_id'];
           this.client.type_of_identification = JSON.parse(JSON.stringify(data))['type_of_identification'];
           this.client.identification_number = JSON.parse(JSON.stringify(data))['identification_number'];
@@ -55,12 +55,15 @@ export class UpdateClientComponent implements OnInit {
           this.client.last_modification_date = JSON.parse(JSON.stringify(data))['last_modification_date'];
           this.client.last_modification_user = JSON.parse(JSON.stringify(data))['last_modification_user'];
           this.activateFiels_1 = false;
+          setTimeout(() => {
+            this.getProducts()
+          }, 100);
         }, (error) => {
           console.log(error);
           this.toast.alertMessage('No se pudo encontrar el cliente', 'error');
           this.cleanForm();
         }
-      );      
+      );
     }
   }
 
@@ -124,17 +127,17 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.updateClient(this.client, this.clientId).subscribe(
         (data) => {
           console.log(data);
-          this.toast.alertMessage('Cliente modificado con exito','success');
+          this.toast.alertMessage('Cliente modificado con exito', 'success');
         }, (error) => {
           console.log(error);
-          this.toast.alertMessage('No se pudo modificar el cliente','error');
+          this.toast.alertMessage('No se pudo modificar el cliente', 'error');
         }
       );
       /*} else {
         alert("no puedes editar la edad, eres menor de edad");
       }*/
     } else {
-      this.toast.alertMessage('Ingresa el campo requerido','warning');
+      this.toast.alertMessage('Ingresa el campo requerido', 'warning');
     }
   }
 
@@ -143,16 +146,16 @@ export class UpdateClientComponent implements OnInit {
       this.clientService.deleteClientById(this.clientId).subscribe(
         (data) => {
           console.log(data);
-          this.toast.alertMessage('Cliente eliminado con exito','success');
+          this.toast.alertMessage('Cliente eliminado con exito', 'success');
         }, (error) => {
           console.log(error);
-          this.toast.alertMessage('No se pudo eliminar el cliente','error');
+          this.toast.alertMessage('No se pudo eliminar el cliente', 'error');
         }
       );
-      this.cleanForm();      
+      this.cleanForm();
     }
   }
-  
+
   getProducts() {
     this.products.shift();
     this.clientService.findProducts(this.client.identification_number).subscribe(
@@ -173,7 +176,7 @@ export class UpdateClientComponent implements OnInit {
     } else {
       for (let product of this.products[0]) {
         if (product['state'] != "Cancelada") {
-          this.toast.alertMessage('El cliente aún posee productos activos o inactivos','warning');
+          this.toast.alertMessage('El cliente aún posee productos activos o inactivos', 'warning');
           condition = false;
           return condition;
         } else {
@@ -181,11 +184,11 @@ export class UpdateClientComponent implements OnInit {
           return condition;
         }
       }
-    }    
+    }
     return condition;
   }
 
-  cleanForm(){
+  cleanForm() {
     //Cleaner Forms
     this.activateFiels_1 = true;
     this.activateFiels_2 = true;
@@ -202,15 +205,15 @@ export class UpdateClientComponent implements OnInit {
     this.client.last_modification_user = null;
   }
 
-  @Output() windowSwitch= new EventEmitter<string>();
+  @Output() windowSwitch = new EventEmitter<string>();
 
-    closeWindow():void{
-      this.windowSwitch.emit();
-      this.cleanForm();
-    }
+  closeWindow(): void {
+    this.windowSwitch.emit();
+    this.cleanForm();
+  }
 
-    openWindow(windowComponentName: string){
-      this.windowName=windowComponentName;
-    }
-    
+  openWindow(windowComponentName: string) {
+    this.windowName = windowComponentName;
+  }
+
 }

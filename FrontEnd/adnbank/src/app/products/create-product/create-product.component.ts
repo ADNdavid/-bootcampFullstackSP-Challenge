@@ -10,8 +10,8 @@ import { ClientService } from 'src/services/client.service';
 export class CreateProductComponent {
 
   @Input() clientOwner: any;
-  @Input() currentUser:any;
-  @ViewChild(ToastComponent) toast!:ToastComponent;
+  @Input() currentUser: any;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
   constructor(private clientService: ClientService) { }
 
@@ -51,7 +51,7 @@ export class CreateProductComponent {
       prefix = "23";
       this.activateFiels = true;
       this.exemptGMF = false;
-    }  
+    }
     this.accountNumber = parseInt(prefix + suffix);
 
     console.log(this.type_of_account);
@@ -107,18 +107,23 @@ export class CreateProductComponent {
       this.product.last_modification_user = this.currentUser;
       this.product.last_modification_date = this.calculateDate();
       this.product.client_owner = this.clientOwner;
-      this.clientService.createProduct(this.product).subscribe(
-        (data) => {
-          console.log(data);
-          this.toast.alertMessage('Cuenta creada con exito', 'success');
-        }, (error) => {
-          console.log(error);
-          this.toast.alertMessage('No se pudo crear la Cuenta','error');
-        }
-      )
-
+      setTimeout(() => {
+        this.clientService.createProduct(this.product).subscribe(
+          (data) => {
+            console.log(data);
+            if (this.type_of_account === 'Corriente') {
+              this.toast.alertMessage('Cuenta creada con exito \n Recuerda que esta puede sobregirarse hasta por $3.000.000', 'success');
+            } else {
+              this.toast.alertMessage('Cuenta creada con exito', 'success');
+            }
+          }, (error) => {
+            console.log(error);
+            this.toast.alertMessage('No se pudo crear la Cuenta', 'error');
+          }
+        );
+      }, 500);
     } else {
-      this.toast.alertMessage('Selecciona el producto a crear:','warning');
+      this.toast.alertMessage('Selecciona el producto a crear:', 'warning');
     }
   }
 
@@ -139,12 +144,13 @@ export class CreateProductComponent {
       console.log(this.products[0].length);
       this.exemptGMF = true;
       return this.exemptGMF;
-    } else {
+    } else if (this.products[0].length > 0 && this.type_of_account === "Ahorros") {
       for (let product of this.products[0]) {
         if (product['exempt_of_gmf'] === true) {
-          this.toast.alertMessage('El cliente ya posee un producto exento de GMF \n Esto puede modificarse en el gestor de productos','warning');
+          this.toast.alertMessage('El cliente ya posee un producto exento de GMF \n Esto puede modificarse en el gestor de productos', 'warning');
           this.exemptGMF = false;
-          return this.exemptGMF;
+          //return this.exemptGMF;
+          break;
         } else {
           this.exemptGMF = true;
           return this.exemptGMF;
@@ -154,20 +160,20 @@ export class CreateProductComponent {
     return this.exemptGMF;
   }
 
-  @Output() windowSwitch= new EventEmitter<string>();
+  @Output() windowSwitch = new EventEmitter<string>();
 
-    closeWindow():void{
-      this.windowSwitch.emit();
-      this.product.type_of_account = null;
-      this.product.account_number = null;
-      this.product.state = null;
-      this.product.current_balance = null;
-      this.product.available_balance = null;
-      this.product.exempt_of_gmf = null;
-      this.product.creation_user = null;
-      this.product.creation_date_of_the_account = null;
-      this.product.last_modification_user = null;
-      this.product.last_modification_date = null;
-      this.product.client_owner = null;
-    }
+  closeWindow(): void {
+    this.windowSwitch.emit();
+    this.product.type_of_account = null;
+    this.product.account_number = null;
+    this.product.state = null;
+    this.product.current_balance = null;
+    this.product.available_balance = null;
+    this.product.exempt_of_gmf = null;
+    this.product.creation_user = null;
+    this.product.creation_date_of_the_account = null;
+    this.product.last_modification_user = null;
+    this.product.last_modification_date = null;
+    this.product.client_owner = null;
+  }
 }

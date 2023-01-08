@@ -77,6 +77,10 @@ export class HomeComponent {
               this.credentials.username = null;
             }
           }, 100);
+          setTimeout(() => {
+            this.toast.alertMessage('La sesión ha expirado, inicia sesión nuevamente','warning');
+            console.log('El Token ha expirado, inicia sesión nuevamente.');
+          }, 10*60000);
         }, (error) => {
           console.log(error);
           this.toast.alertMessage('No se pudo iniciar sesión, verifica que las credenciales ingresadas sean correctas', 'error');

@@ -45,13 +45,13 @@ export class ProductListComponent {
           console.log(error);
         }
       );
-      setTimeout(() => {
+/*       setTimeout(() => {
         for (let product of this.products[0]) {
           let currency = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 1 });          
           product["current_balance"] = currency.format(product["current_balance"]);
           product["available_balance"] = currency.format(product["available_balance"]);
         }
-      }, 60);
+      }, 60); */
     }, 50);
   }
 
@@ -171,7 +171,7 @@ export class ProductListComponent {
                 console.log(error);
               }
             );
-            break;
+            //break;
           }
         }
 

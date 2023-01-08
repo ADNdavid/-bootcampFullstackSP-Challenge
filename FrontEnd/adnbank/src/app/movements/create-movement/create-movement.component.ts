@@ -134,7 +134,7 @@ export class CreateMovementComponent {
     setTimeout(() => {
       if(this.targetProduct.state === 'Cancelada'){
         this.toast.alertMessage('El producto de destino con número de cuenta: ' + this.targetProduct.account_number + ', ha sido cancelado','warning');
-      }else if(this.originProduct.account_number === null){
+      }else if(this.targetProduct.account_number === null){
         this.toast.alertMessage('El número de cuenta ingresado no ha sido encontrado en la base de datos','error');
       }
     }, 100);

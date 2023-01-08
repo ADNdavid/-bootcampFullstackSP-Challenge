@@ -34,10 +34,22 @@ label {
     font-size: 1.8rem;
 }
 
+section label{
+    font-size: 1.6rem;
+    max-width: 20rem;
+    box-sizing: border-box;
+}
+
 input {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1rem;
     margin-left: 1rem;
+}
+
+input[type="text"], input[type="email"], input[type="date"], input[type="datetime-local"] {
+    width: 14rem;
+    font-size: 0.9rem;
+    box-sizing: border-box;
 }
 
 span input[type="button"]{
@@ -58,7 +70,7 @@ section {
 section + span{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: center;    
     gap: 2rem;
 }
 

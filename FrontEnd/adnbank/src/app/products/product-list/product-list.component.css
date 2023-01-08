@@ -74,9 +74,9 @@ td{
     cursor: pointer;
 }
 
-/* .currency::before{
+.currency::before{
 content: "$";
-} */
+}
 
 section{
     display: flex;

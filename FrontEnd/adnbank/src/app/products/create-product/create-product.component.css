@@ -3,7 +3,7 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 60%;
-    width: 30vw;
+    width: 22vw;
     height: 40vh;
     background-color: #e5e5e5;
     border-color: #219ebc;
@@ -57,13 +57,13 @@ section {
     align-content: space-around;
     height: 25vh;
     margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
- span > div{
+ /* span > div{
     display: flex;    
     align-items: center;
 
- }
+ } */
 
  [type="button"] {
     position: absolute;
